@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alex Morgan — BI Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #F7F5F2;
+      --surface:   #FFFFFF;
+      --ink:       #1A1A18;
+      --ink-light: #6B6B65;
+      --accent:    #1D4E4A;
+      --accent-2:  #C9A84C;
+      --rule:      #E2DDD8;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ───────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 4rem;
+      background: rgba(247,245,242,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ──────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem 6rem 4rem;
+      border-right: 1px solid var(--rule);
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 6vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.25rem;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-tagline {
+      font-size: 1rem;
+      color: var(--ink-light);
+      max-width: 380px;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+    .hero-cta-group { display: flex; gap: 1rem; align-items: center; }
+    .btn-primary {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #163836; transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border: 1.5px solid var(--rule);
+      color: var(--ink-light);
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 4rem;
+      gap: 2rem;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5px;
+      background: var(--rule);
+      border: 1.5px solid var(--rule);
+      margin-top: auto;
+    }
+    .stat-cell {
+      background: var(--surface);
+      padding: 1.75rem;
+    }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-number span { color: var(--accent-2); }
+    .stat-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+    .hero-scroll-hint {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-scroll-hint::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    /* ── SECTION SHARED ────────────────────────────────── */
+    section { border-top: 1px solid var(--rule); }
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 4rem;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 3rem;
+    }
+    .section-title em { font-style: italic; color: var(--accent); }
+
+    /* ── ABOUT ─────────────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-body p {
+      color: var(--ink-light);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+    .about-body p strong { color: var(--ink); font-weight: 600; }
+    .about-sidebar {}
+    .sidebar-block {
+      padding: 1.75rem;
+      border: 1.5px solid var(--rule);
+      margin-bottom: 1.5rem;
+    }
+    .sidebar-block h4 {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 0.35rem 0.85rem;
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      color: var(--ink-light);
+    }
+    .tag.accent { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* ── STACK ─────────────────────────────────────────── */
+    #stack { background: var(--ink); }
+    #stack .section-label { color: var(--accent-2); }
+    #stack .section-title { color: #F7F5F2; }
+    #stack .section-title em { color: var(--accent-2); }
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5px;
+      background: #2a2a26;
+      border: 1.5px solid #2a2a26;
+    }
+    .stack-card {
+      background: #1f1f1c;
+      padding: 2.5rem 2rem;
+      transition: background 0.2s;
+    }
+    .stack-card:hover { background: #272723; }
+    .stack-icon {
+      width: 44px; height: 44px;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.5rem;
+    }
+    .stack-icon.teal  { background: rgba(29,78,74,0.4); }
+    .stack-icon.gold  { background: rgba(201,168,76,0.2); }
+    .stack-icon.blue  { background: rgba(62, 99, 221, 0.2); }
+    .stack-icon.red   { background: rgba(231, 76, 60, 0.2); }
+    .stack-name {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: #F7F5F2;
+      margin-bottom: 0.5rem;
+    }
+    .stack-desc {
+      font-size: 0.8rem;
+      color: #888880;
+      line-height: 1.65;
+    }
+
+    /* ── PORTFOLIO ─────────────────────────────────────── */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: var(--rule);
+      border: 1.5px solid var(--rule);
+    }
+    .project-card {
+      background: var(--surface);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .project-card:hover { background: #FDFCFA; }
+    .project-type {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 0.85rem;
+    }
+    .project-desc {
+      font-size: 0.82rem;
+      color: var(--ink-light);
+      line-height: 1.75;
+      flex-grow: 1;
+      margin-bottom: 1.5rem;
+    }
+    .project-tools { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .project-tool {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid var(--rule);
+      color: var(--ink-light);
+    }
+    .project-arrow {
+      margin-top: 1.75rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .project-arrow::after {
+      content: '→';
+      transition: transform 0.2s;
+    }
+    .project-card:hover .project-arrow::after { transform: translateX(4px); }
+
+    /* ── CONTACT ───────────────────────────────────────── */
+    #contact {
+      background: var(--accent);
+    }
+    #contact .section-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    #contact .section-label { color: rgba(255,255,255,0.5); }
+    #contact .section-title { color: #fff; margin-bottom: 1.5rem; }
+    #contact .section-title em { color: var(--accent-2); }
+    .contact-sub {
+      color: rgba(255,255,255,0.65);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .btn-contact {
+      display: inline-block;
+      padding: 0.9rem 2.25rem;
+      background: #fff;
+      color: var(--accent);
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-contact:hover { background: var(--accent-2); color: #fff; transform: translateY(-1px); }
+    .contact-links { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact-link-row {
+      display: flex; align-items: center; gap: 1.25rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .contact-link-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .contact-link-icon {
+      width: 42px; height: 42px;
+      background: rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .contact-link-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 0.2rem;
+    }
+    .contact-link-value {
+      font-size: 0.9rem;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    /* ── FOOTER ────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer p {
+      font-size: 0.72rem;
+      color: var(--ink-light);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── ANIMATIONS ────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow { animation: fadeUp 0.7s ease both; animation-delay: 0.1s; }
+    .hero-name    { animation: fadeUp 0.7s ease both; animation-delay: 0.25s; }
+    .hero-tagline { animation: fadeUp 0.7s ease both; animation-delay: 0.4s; }
+    .hero-cta-group { animation: fadeUp 0.7s ease both; animation-delay: 0.55s; }
+    .hero-stats   { animation: fadeUp 0.8s ease both; animation-delay: 0.3s; }
+
+    /* ── RESPONSIVE ────────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1.25rem 1.5rem; }
+      .nav-links { gap: 1.25rem; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 5rem 1.5rem 3rem; border-right: none; border-bottom: 1px solid var(--rule); }
+      .hero-right { padding: 2.5rem 1.5rem; }
+      .section-inner { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .stack-grid { grid-template-columns: 1fr 1fr; }
+      .portfolio-grid { grid-template-columns: 1fr; }
+      #contact .section-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { flex-direction: column; gap: 0.75rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Alex Morgan</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">BI Developer &amp; Data Analyst</p>
+      <h1 class="hero-name">Turning data<br>into <em>decisions</em></h1>
+      <p class="hero-tagline">
+        I design and build business intelligence solutions that help organisations
+        understand their data — from SQL pipelines to polished executive dashboards.
+      </p>
+      <div class="hero-cta-group">
+        <a href="#portfolio" class="btn-primary">View Portfolio</a>
+        <a href="#contact" class="btn-ghost">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-scroll-hint">Scroll to explore</div>
+      <div class="hero-stats">
+        <div class="stat-cell">
+          <div class="stat-number">5<span>+</span></div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-number">30<span>+</span></div>
+          <div class="stat-label">Dashboards Shipped</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-number">12<span>+</span></div>
+          <div class="stat-label">Business Domains</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-number">4<span>M+</span></div>
+          <div class="stat-label">Rows Processed Daily</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <p class="section-label">About Me</p>
+      <h2 class="section-title">Data that <em>speaks</em> to the business</h2>
+      <div class="about-grid">
+        <div class="about-body">
+          <p>
+            I'm a <strong>Business Intelligence Developer</strong> with a passion for bridging the gap between
+            raw data and meaningful business outcomes. My work spans the full data pipeline — from designing
+            scalable SQL data models to crafting intuitive dashboards that empower stakeholders at every level.
+          </p>
+          <p>
+            I specialise in <strong>Tableau</strong> and <strong>Power BI</strong>, building reports that are
+            not just visually clean, but logically sound and performance-optimised. I pair that with strong
+            expertise in <strong>SQL</strong> and <strong>Databricks</strong> to handle complex transformations
+            at scale.
+          </p>
+          <p>
+            Whether it's a C-suite KPI tracker or a granular operational report, I care deeply about
+            <strong>clarity, accuracy, and adoption</strong> — dashboards only add value when people actually use them.
+          </p>
+        </div>
+        <div class="about-sidebar">
+          <div class="sidebar-block">
+            <h4>Core Tools</h4>
+            <div class="tag-cloud">
+              <span class="tag accent">Tableau</span>
+              <span class="tag accent">Power BI</span>
+              <span class="tag accent">Databricks</span>
+              <span class="tag accent">SQL</span>
+            </div>
+          </div>
+          <div class="sidebar-block">
+            <h4>Also Experienced With</h4>
+            <div class="tag-cloud">
+              <span class="tag">DAX</span>
+              <span class="tag">Power Query</span>
+              <span class="tag">Delta Lake</span>
+              <span class="tag">Apache Spark</span>
+              <span class="tag">Data Modelling</span>
+              <span class="tag">ETL Pipelines</span>
+              <span class="tag">Git</span>
+              <span class="tag">Azure</span>
+            </div>
+          </div>
+          <div class="sidebar-block">
+            <h4>Domains</h4>
+            <div class="tag-cloud">
+              <span class="tag">Finance</span>
+              <span class="tag">Sales</span>
+              <span class="tag">Operations</span>
+              <span class="tag">Marketing</span>
+              <span class="tag">HR Analytics</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack">
+    <div class="section-inner">
+      <p class="section-label">My Stack</p>
+      <h2 class="section-title">Tools I <em>trust</em></h2>
+      <div class="stack-grid">
+        <div class="stack-card">
+          <div class="stack-icon teal">📊</div>
+          <div class="stack-name">Tableau</div>
+          <div class="stack-desc">Complex calculated fields, LOD expressions, performance-tuned extracts, and pixel-perfect published workbooks.</div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-icon gold">📈</div>
+          <div class="stack-name">Power BI</div>
+          <div class="stack-desc">Star-schema data models, advanced DAX measures, Row-Level Security, and enterprise-grade report distribution.</div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-icon blue">🗄️</div>
+          <div class="stack-name">SQL</div>
+          <div class="stack-desc">Optimised queries, CTEs, window functions, stored procedures, and logical data modelling across multiple platforms.</div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-icon red">⚡</div>
+          <div class="stack-name">Databricks</div>
+          <div class="stack-desc">Lakehouse architecture on Delta Lake, PySpark transformations, and Unity Catalog for governed data access.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <div class="section-inner">
+      <p class="section-label">Selected Work</p>
+      <h2 class="section-title">Projects &amp; <em>case studies</em></h2>
+      <div class="portfolio-grid">
+
+        <a href="#" class="project-card">
+          <p class="project-type">Tableau · SQL</p>
+          <h3 class="project-title">Executive Sales Performance Suite</h3>
+          <p class="project-desc">
+            End-to-end pipeline from a multi-source SQL data model to a suite of Tableau dashboards
+            tracking revenue, pipeline velocity, and rep performance for a 200-person sales organisation.
+          </p>
+          <div class="project-tools">
+            <span class="project-tool">Tableau</span>
+            <span class="project-tool">SQL Server</span>
+            <span class="project-tool">Salesforce</span>
+          </div>
+          <div class="project-arrow">View Case Study</div>
+        </a>
+
+        <a href="#" class="project-card">
+          <p class="project-type">Power BI · Databricks</p>
+          <h3 class="project-title">Lakehouse Finance Reporting</h3>
+          <p class="project-desc">
+            Migrated a legacy Excel-based finance reporting process to a fully automated Databricks + Power BI
+            solution, cutting report preparation time by 80% and enabling daily refresh.
+          </p>
+          <div class="project-tools">
+            <span class="project-tool">Power BI</span>
+            <span class="project-tool">Databricks</span>
+            <span class="project-tool">Delta Lake</span>
+          </div>
+          <div class="project-arrow">View Case Study</div>
+        </a>
+
+        <a href="#" class="project-card">
+          <p class="project-type">Tableau · SQL</p>
+          <h3 class="project-title">Customer Churn Analytics Dashboard</h3>
+          <p class="project-desc">
+            Interactive churn analysis tool with cohort views, predictive risk scoring integration, and
+            segment drill-through for the Customer Success team to prioritise retention efforts.
+          </p>
+          <div class="project-tools">
+            <span class="project-tool">Tableau</span>
+            <span class="project-tool">PostgreSQL</span>
+            <span class="project-tool">Python</span>
+          </div>
+          <div class="project-arrow">View Case Study</div>
+        </a>
+
+        <a href="#" class="project-card">
+          <p class="project-type">Power BI · DAX</p>
+          <h3 class="project-title">HR Headcount &amp; Attrition Model</h3>
+          <p class="project-desc">
+            People analytics solution with headcount evolution, attrition risk flags, and DEI metrics.
+            Built with Row-Level Security so each manager sees only their own team.
+          </p>
+          <div class="project-tools">
+            <span class="project-tool">Power BI</span>
+            <span class="project-tool">DAX</span>
+            <span class="project-tool">Azure SQL</span>
+          </div>
+          <div class="project-arrow">View Case Study</div>
+        </a>
+
+        <a href="#" class="project-card">
+          <p class="project-type">Databricks · SQL</p>
+          <h3 class="project-title">Unified Marketing Attribution Pipeline</h3>
+          <p class="project-desc">
+            Built a first-touch, last-touch, and linear attribution model in Databricks, pulling from 6
+            ad platforms via API, enabling spend optimisation across £2M+ quarterly budget.
+          </p>
+          <div class="project-tools">
+            <span class="project-tool">Databricks</span>
+            <span class="project-tool">PySpark</span>
+            <span class="project-tool">Tableau</span>
+          </div>
+          <div class="project-arrow">View Case Study</div>
+        </a>
+
+        <a href="#" class="project-card">
+          <p class="project-type">Power BI · Databricks</p>
+          <h3 class="project-title">Operational KPI Command Centre</h3>
+          <p class="project-desc">
+            Real-time operational dashboard with sub-minute refresh using Databricks streaming and
+            Power BI DirectQuery, monitoring logistics KPIs across 14 warehouse locations.
+          </p>
+          <div class="project-tools">
+            <span class="project-tool">Power BI</span>
+            <span class="project-tool">Databricks</span>
+            <span class="project-tool">Streaming</span>
+          </div>
+          <div class="project-arrow">View Case Study</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <div>
+        <p class="section-label">Let's Talk</p>
+        <h2 class="section-title">Open to new<br><em>opportunities</em></h2>
+        <p class="contact-sub">
+          Whether you have a data challenge to solve, a dashboard to build, or just want to connect —
+          I'd love to hear from you.
+        </p>
+        <a href="mailto:alex@example.com" class="btn-contact">Send Me an Email</a>
+      </div>
+      <div class="contact-links">
+        <div class="contact-link-row">
+          <div class="contact-link-icon">✉️</div>
+          <div>
+            <p class="contact-link-label">Email</p>
+            <a href="mailto:alex@example.com" class="contact-link-value">alex@example.com</a>
+          </div>
+        </div>
+        <div class="contact-link-row">
+          <div class="contact-link-icon">💼</div>
+          <div>
+            <p class="contact-link-label">LinkedIn</p>
+            <a href="#" class="contact-link-value">linkedin.com/in/alexmorgan</a>
+          </div>
+        </div>
+        <div class="contact-link-row">
+          <div class="contact-link-icon">🐙</div>
+          <div>
+            <p class="contact-link-label">GitHub</p>
+            <a href="#" class="contact-link-value">github.com/alexmorgan</a>
+          </div>
+        </div>
+        <div class="contact-link-row">
+          <div class="contact-link-icon">📍</div>
+          <div>
+            <p class="contact-link-label">Location</p>
+            <span class="contact-link-value">Brussels, Belgium</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Alex Morgan. All rights reserved.</p>
+    <p>Built with HTML · CSS · No frameworks needed</p>
+  </footer>
+
+</body>
+</html>
