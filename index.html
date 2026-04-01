@@ -3,753 +3,572 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Alex Morgan — BI Developer</title>
+  <title>Your Name — BI Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:        #F7F5F2;
-      --surface:   #FFFFFF;
-      --ink:       #1A1A18;
-      --ink-light: #6B6B65;
-      --accent:    #1D4E4A;
-      --accent-2:  #C9A84C;
-      --rule:      #E2DDD8;
-      --font-display: 'Cormorant Garamond', Georgia, serif;
-      --font-body:    'Syne', sans-serif;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--font-body);
-      font-size: 15px;
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ── NAV ───────────────────────────────────────────── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.25rem 4rem;
-      background: rgba(247,245,242,0.88);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--rule);
-    }
-    .nav-logo {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      color: var(--ink);
-      text-decoration: none;
-    }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ink-light);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--accent); }
-
-    /* ── HERO ──────────────────────────────────────────── */
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      padding-top: 80px;
-    }
-    .hero-left {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 6rem 4rem 6rem 4rem;
-      border-right: 1px solid var(--rule);
-    }
-    .hero-eyebrow {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.5rem;
-    }
-    .hero-name {
-      font-family: var(--font-display);
-      font-size: clamp(3.5rem, 6vw, 6.5rem);
-      font-weight: 300;
-      line-height: 1.05;
-      letter-spacing: -0.01em;
-      margin-bottom: 1.25rem;
-    }
-    .hero-name em {
-      font-style: italic;
-      color: var(--accent);
-    }
-    .hero-tagline {
-      font-size: 1rem;
-      color: var(--ink-light);
-      max-width: 380px;
-      line-height: 1.75;
-      margin-bottom: 2.5rem;
-    }
-    .hero-cta-group { display: flex; gap: 1rem; align-items: center; }
-    .btn-primary {
-      display: inline-block;
-      padding: 0.8rem 2rem;
-      background: var(--accent);
-      color: #fff;
-      font-family: var(--font-body);
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .btn-primary:hover { background: #163836; transform: translateY(-1px); }
-    .btn-ghost {
-      display: inline-block;
-      padding: 0.8rem 2rem;
-      border: 1.5px solid var(--rule);
-      color: var(--ink-light);
-      font-family: var(--font-body);
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-    .hero-right {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 4rem;
-      gap: 2rem;
-    }
-    .hero-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5px;
-      background: var(--rule);
-      border: 1.5px solid var(--rule);
-      margin-top: auto;
-    }
-    .stat-cell {
-      background: var(--surface);
-      padding: 1.75rem;
-    }
-    .stat-number {
-      font-family: var(--font-display);
-      font-size: 2.8rem;
-      font-weight: 300;
-      color: var(--ink);
-      line-height: 1;
-      margin-bottom: 0.4rem;
-    }
-    .stat-number span { color: var(--accent-2); }
-    .stat-label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ink-light);
-    }
-    .hero-scroll-hint {
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--ink-light);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .hero-scroll-hint::before {
-      content: '';
-      display: block;
-      width: 40px;
-      height: 1px;
-      background: var(--rule);
-    }
-
-    /* ── SECTION SHARED ────────────────────────────────── */
-    section { border-top: 1px solid var(--rule); }
-    .section-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 6rem 4rem;
-    }
-    .section-label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-    }
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      font-weight: 300;
-      line-height: 1.15;
-      margin-bottom: 3rem;
-    }
-    .section-title em { font-style: italic; color: var(--accent); }
-
-    /* ── ABOUT ─────────────────────────────────────────── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: start;
-    }
-    .about-body p {
-      color: var(--ink-light);
-      line-height: 1.8;
-      margin-bottom: 1.25rem;
-    }
-    .about-body p strong { color: var(--ink); font-weight: 600; }
-    .about-sidebar {}
-    .sidebar-block {
-      padding: 1.75rem;
-      border: 1.5px solid var(--rule);
-      margin-bottom: 1.5rem;
-    }
-    .sidebar-block h4 {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1rem;
-    }
-    .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .tag {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      padding: 0.35rem 0.85rem;
-      background: var(--bg);
-      border: 1px solid var(--rule);
-      color: var(--ink-light);
-    }
-    .tag.accent { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-    /* ── STACK ─────────────────────────────────────────── */
-    #stack { background: var(--ink); }
-    #stack .section-label { color: var(--accent-2); }
-    #stack .section-title { color: #F7F5F2; }
-    #stack .section-title em { color: var(--accent-2); }
-    .stack-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5px;
-      background: #2a2a26;
-      border: 1.5px solid #2a2a26;
-    }
-    .stack-card {
-      background: #1f1f1c;
-      padding: 2.5rem 2rem;
-      transition: background 0.2s;
-    }
-    .stack-card:hover { background: #272723; }
-    .stack-icon {
-      width: 44px; height: 44px;
-      border-radius: 4px;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1.25rem;
-      font-size: 1.5rem;
-    }
-    .stack-icon.teal  { background: rgba(29,78,74,0.4); }
-    .stack-icon.gold  { background: rgba(201,168,76,0.2); }
-    .stack-icon.blue  { background: rgba(62, 99, 221, 0.2); }
-    .stack-icon.red   { background: rgba(231, 76, 60, 0.2); }
-    .stack-name {
-      font-family: var(--font-display);
-      font-size: 1.35rem;
-      font-weight: 400;
-      color: #F7F5F2;
-      margin-bottom: 0.5rem;
-    }
-    .stack-desc {
-      font-size: 0.8rem;
-      color: #888880;
-      line-height: 1.65;
-    }
-
-    /* ── PORTFOLIO ─────────────────────────────────────── */
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5px;
-      background: var(--rule);
-      border: 1.5px solid var(--rule);
-    }
-    .project-card {
-      background: var(--surface);
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      transition: background 0.2s;
-      text-decoration: none;
-      color: inherit;
-    }
-    .project-card:hover { background: #FDFCFA; }
-    .project-type {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1rem;
-    }
-    .project-title {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      font-weight: 400;
-      line-height: 1.2;
-      margin-bottom: 0.85rem;
-    }
-    .project-desc {
-      font-size: 0.82rem;
-      color: var(--ink-light);
-      line-height: 1.75;
-      flex-grow: 1;
-      margin-bottom: 1.5rem;
-    }
-    .project-tools { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .project-tool {
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.25rem 0.65rem;
-      border: 1px solid var(--rule);
-      color: var(--ink-light);
-    }
-    .project-arrow {
-      margin-top: 1.75rem;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .project-arrow::after {
-      content: '→';
-      transition: transform 0.2s;
-    }
-    .project-card:hover .project-arrow::after { transform: translateX(4px); }
-
-    /* ── CONTACT ───────────────────────────────────────── */
-    #contact {
-      background: var(--accent);
-    }
-    #contact .section-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: center;
-    }
-    #contact .section-label { color: rgba(255,255,255,0.5); }
-    #contact .section-title { color: #fff; margin-bottom: 1.5rem; }
-    #contact .section-title em { color: var(--accent-2); }
-    .contact-sub {
-      color: rgba(255,255,255,0.65);
-      line-height: 1.8;
-      margin-bottom: 2rem;
-    }
-    .btn-contact {
-      display: inline-block;
-      padding: 0.9rem 2.25rem;
-      background: #fff;
-      color: var(--accent);
-      font-family: var(--font-body);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .btn-contact:hover { background: var(--accent-2); color: #fff; transform: translateY(-1px); }
-    .contact-links { display: flex; flex-direction: column; gap: 1.5rem; }
-    .contact-link-row {
-      display: flex; align-items: center; gap: 1.25rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
-    }
-    .contact-link-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .contact-link-icon {
-      width: 42px; height: 42px;
-      background: rgba(255,255,255,0.1);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-    .contact-link-label {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
-      margin-bottom: 0.2rem;
-    }
-    .contact-link-value {
-      font-size: 0.9rem;
-      color: #fff;
-      text-decoration: none;
-    }
-
-    /* ── FOOTER ────────────────────────────────────────── */
-    footer {
-      border-top: 1px solid var(--rule);
-      padding: 2rem 4rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    footer p {
-      font-size: 0.72rem;
-      color: var(--ink-light);
-      letter-spacing: 0.04em;
-    }
-
-    /* ── ANIMATIONS ────────────────────────────────────── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .hero-eyebrow { animation: fadeUp 0.7s ease both; animation-delay: 0.1s; }
-    .hero-name    { animation: fadeUp 0.7s ease both; animation-delay: 0.25s; }
-    .hero-tagline { animation: fadeUp 0.7s ease both; animation-delay: 0.4s; }
-    .hero-cta-group { animation: fadeUp 0.7s ease both; animation-delay: 0.55s; }
-    .hero-stats   { animation: fadeUp 0.8s ease both; animation-delay: 0.3s; }
-
-    /* ── RESPONSIVE ────────────────────────────────────── */
-    @media (max-width: 900px) {
-      nav { padding: 1.25rem 1.5rem; }
-      .nav-links { gap: 1.25rem; }
-      .hero { grid-template-columns: 1fr; min-height: auto; }
-      .hero-left { padding: 5rem 1.5rem 3rem; border-right: none; border-bottom: 1px solid var(--rule); }
-      .hero-right { padding: 2.5rem 1.5rem; }
-      .section-inner { padding: 4rem 1.5rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .stack-grid { grid-template-columns: 1fr 1fr; }
-      .portfolio-grid { grid-template-columns: 1fr; }
-      #contact .section-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-      footer { flex-direction: column; gap: 0.75rem; text-align: center; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
+  <!-- CUSTOM CURSOR -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursorFollower"></div>
+
   <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo">Alex Morgan</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#stack">Stack</a></li>
-      <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="nav-brand">YN<span class="dot">.</span></a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#tableau">Tableau</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero-left">
-      <p class="hero-eyebrow">BI Developer &amp; Data Analyst</p>
-      <h1 class="hero-name">Turning data<br>into <em>decisions</em></h1>
-      <p class="hero-tagline">
-        I design and build business intelligence solutions that help organisations
-        understand their data — from SQL pipelines to polished executive dashboards.
-      </p>
-      <div class="hero-cta-group">
-        <a href="#portfolio" class="btn-primary">View Portfolio</a>
-        <a href="#contact" class="btn-ghost">Get in Touch</a>
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="hero-scroll-hint">Scroll to explore</div>
-      <div class="hero-stats">
-        <div class="stat-cell">
-          <div class="stat-number">5<span>+</span></div>
-          <div class="stat-label">Years Experience</div>
-        </div>
-        <div class="stat-cell">
-          <div class="stat-number">30<span>+</span></div>
-          <div class="stat-label">Dashboards Shipped</div>
-        </div>
-        <div class="stat-cell">
-          <div class="stat-number">12<span>+</span></div>
-          <div class="stat-label">Business Domains</div>
-        </div>
-        <div class="stat-cell">
-          <div class="stat-number">4<span>M+</span></div>
-          <div class="stat-label">Rows Processed Daily</div>
-        </div>
-      </div>
-    </div>
-  </header>
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#skills" class="mobile-link">Skills</a></li>
+      <li><a href="#tableau" class="mobile-link">Tableau</a></li>
+      <li><a href="#portfolio" class="mobile-link">Portfolio</a></li>
+      <li><a href="#contact" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="section-inner">
-      <p class="section-label">About Me</p>
-      <h2 class="section-title">Data that <em>speaks</em> to the business</h2>
-      <div class="about-grid">
-        <div class="about-body">
-          <p>
-            I'm a <strong>Business Intelligence Developer</strong> with a passion for bridging the gap between
-            raw data and meaningful business outcomes. My work spans the full data pipeline — from designing
-            scalable SQL data models to crafting intuitive dashboards that empower stakeholders at every level.
-          </p>
-          <p>
-            I specialise in <strong>Tableau</strong> and <strong>Power BI</strong>, building reports that are
-            not just visually clean, but logically sound and performance-optimised. I pair that with strong
-            expertise in <strong>SQL</strong> and <strong>Databricks</strong> to handle complex transformations
-            at scale.
-          </p>
-          <p>
-            Whether it's a C-suite KPI tracker or a granular operational report, I care deeply about
-            <strong>clarity, accuracy, and adoption</strong> — dashboards only add value when people actually use them.
-          </p>
-        </div>
-        <div class="about-sidebar">
-          <div class="sidebar-block">
-            <h4>Core Tools</h4>
-            <div class="tag-cloud">
-              <span class="tag accent">Tableau</span>
-              <span class="tag accent">Power BI</span>
-              <span class="tag accent">Databricks</span>
-              <span class="tag accent">SQL</span>
-            </div>
-          </div>
-          <div class="sidebar-block">
-            <h4>Also Experienced With</h4>
-            <div class="tag-cloud">
-              <span class="tag">DAX</span>
-              <span class="tag">Power Query</span>
-              <span class="tag">Delta Lake</span>
-              <span class="tag">Apache Spark</span>
-              <span class="tag">Data Modelling</span>
-              <span class="tag">ETL Pipelines</span>
-              <span class="tag">Git</span>
-              <span class="tag">Azure</span>
-            </div>
-          </div>
-          <div class="sidebar-block">
-            <h4>Domains</h4>
-            <div class="tag-cloud">
-              <span class="tag">Finance</span>
-              <span class="tag">Sales</span>
-              <span class="tag">Operations</span>
-              <span class="tag">Marketing</span>
-              <span class="tag">HR Analytics</span>
-            </div>
-          </div>
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <p class="hero-greeting reveal">Hello, I'm</p>
+      <h1 class="hero-name reveal">Your Name<span class="dot">.</span></h1>
+      <div class="hero-roles reveal">
+        <span class="role-prefix">I am a </span>
+        <span class="typed-text" id="typedText"></span>
+        <span class="cursor-blink">|</span>
+      </div>
+      <p class="hero-desc reveal">
+        Transforming raw data into strategic intelligence — through dashboards,
+        models, and pipelines that drive decisions.
+      </p>
+      <div class="hero-actions reveal">
+        <a href="#portfolio" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-outline">Let's Talk</a>
+      </div>
+      <div class="hero-scroll reveal">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+      </div>
+    </div>
+    <div class="hero-badge reveal">
+      <div class="badge-ring">
+        <svg viewBox="0 0 120 120" class="badge-svg">
+          <defs>
+            <path id="circle-text" d="M 60,60 m -45,0 a 45,45 0 1,1 90,0 a 45,45 0 1,1 -90,0"/>
+          </defs>
+          <text class="badge-text-svg">
+            <textPath href="#circle-text">BI DEVELOPER · DATA ANALYTICS · SQL · DATABRICKS ·</textPath>
+          </text>
+        </svg>
+        <div class="badge-center">
+          <span>BI</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- STACK -->
-  <section id="stack">
-    <div class="section-inner">
-      <p class="section-label">My Stack</p>
-      <h2 class="section-title">Tools I <em>trust</em></h2>
-      <div class="stack-grid">
-        <div class="stack-card">
-          <div class="stack-icon teal">📊</div>
-          <div class="stack-name">Tableau</div>
-          <div class="stack-desc">Complex calculated fields, LOD expressions, performance-tuned extracts, and pixel-perfect published workbooks.</div>
+  <!-- ABOUT -->
+  <section id="about" class="section about-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">01 / About</span>
+        <h2 class="section-title">Who <em>I Am</em></h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-image-col reveal">
+          <div class="about-image-frame">
+            <div class="about-image-placeholder">
+              <!-- Replace this div with an <img> tag when you have a photo -->
+              <span>Your Photo</span>
+            </div>
+            <div class="about-image-border"></div>
+            <div class="about-stat-badge">
+              <strong>5+</strong>
+              <span>Years<br>Experience</span>
+            </div>
+          </div>
         </div>
-        <div class="stack-card">
-          <div class="stack-icon gold">📈</div>
-          <div class="stack-name">Power BI</div>
-          <div class="stack-desc">Star-schema data models, advanced DAX measures, Row-Level Security, and enterprise-grade report distribution.</div>
+        <div class="about-text-col reveal">
+          <h3 class="about-headline">BI Developer & <br><em>Data Analyst</em></h3>
+          <p class="about-body">
+            I'm a Business Intelligence Developer passionate about bridging the gap between
+            data complexity and business clarity. My work spans the full analytics stack —
+            from designing robust SQL data models and Databricks pipelines to crafting
+            interactive dashboards in Tableau and Power BI.
+          </p>
+          <p class="about-body">
+            I believe great BI isn't just about beautiful visuals — it's about
+            <strong>accuracy, performance, and adoption</strong>. I design solutions that
+            stakeholders actually trust and use daily to make better decisions.
+          </p>
+          <div class="about-info-grid">
+            <div class="info-item">
+              <span class="info-label">Location</span>
+              <span class="info-value">Brussels, Belgium</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Availability</span>
+              <span class="info-value available">Open to Opportunities</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Focus</span>
+              <span class="info-value">Tableau · Power BI · SQL</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Platform</span>
+              <span class="info-value">Databricks · Azure</span>
+            </div>
+          </div>
+          <a href="#" class="btn-primary" download>Download CV</a>
         </div>
-        <div class="stack-card">
-          <div class="stack-icon blue">🗄️</div>
-          <div class="stack-name">SQL</div>
-          <div class="stack-desc">Optimised queries, CTEs, window functions, stored procedures, and logical data modelling across multiple platforms.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="section skills-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">02 / Skills</span>
+        <h2 class="section-title">My <em>Expertise</em></h2>
+      </div>
+      <div class="skills-grid">
+        <div class="skills-col reveal">
+          <h3 class="skills-col-title">BI & Visualisation</h3>
+          <div class="skill-item">
+            <div class="skill-meta">
+              <span class="skill-name">Tableau</span>
+              <span class="skill-pct">92%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" data-width="92"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-meta">
+              <span class="skill-name">Power BI</span>
+              <span class="skill-pct">85%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-meta">
+              <span class="skill-name">Dashboard Design</span>
+              <span class="skill-pct">90%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-meta">
+              <span class="skill-name">DAX / Calculated Fields</span>
+              <span class="skill-pct">80%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+          </div>
         </div>
-        <div class="stack-card">
-          <div class="stack-icon red">⚡</div>
-          <div class="stack-name">Databricks</div>
-          <div class="stack-desc">Lakehouse architecture on Delta Lake, PySpark transformations, and Unity Catalog for governed data access.</div>
+        <div class="skills-col reveal">
+          <h3 class="skills-col-title">Data Engineering</h3>
+          <div class="skill-item">
+            <div class="skill-meta">
+              <span class="skill-name">SQL</span>
+              <span class="skill-pct">95%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" data-width="95"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-meta">
+              <span class="skill-name">Databricks</span>
+              <span class="skill-pct">75%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-meta">
+              <span class="skill-name">Data Modelling</span>
+              <span class="skill-pct">88%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" data-width="88"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-meta">
+              <span class="skill-name">ETL Pipelines</span>
+              <span class="skill-pct">78%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" data-width="78"></div></div>
+          </div>
         </div>
+      </div>
+
+      <!-- TOOL TAGS -->
+      <div class="tools-row reveal">
+        <span class="tool-tag teal">Tableau</span>
+        <span class="tool-tag teal">Power BI</span>
+        <span class="tool-tag">SQL Server</span>
+        <span class="tool-tag">PostgreSQL</span>
+        <span class="tool-tag teal">Databricks</span>
+        <span class="tool-tag">Delta Lake</span>
+        <span class="tool-tag">Apache Spark</span>
+        <span class="tool-tag">DAX</span>
+        <span class="tool-tag">Power Query</span>
+        <span class="tool-tag">Azure</span>
+        <span class="tool-tag">Git</span>
+        <span class="tool-tag">Python</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLEAU SHOWCASE -->
+  <section id="tableau" class="section tableau-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">03 / Tableau</span>
+        <h2 class="section-title">Live <em>Dashboards</em></h2>
+        <p class="section-sub">Interactive Tableau visualisations — explore them directly below.</p>
+      </div>
+
+      <div class="tableau-grid">
+
+        <!-- TABLEAU EMBED 1 -->
+        <div class="tableau-card reveal">
+          <div class="tableau-card-header">
+            <div>
+              <p class="tableau-card-tag">Sales Analytics</p>
+              <h3 class="tableau-card-title">Executive Sales Dashboard</h3>
+            </div>
+            <a href="YOUR_TABLEAU_PUBLIC_URL" target="_blank" class="tableau-link-btn" title="Open in Tableau Public">↗</a>
+          </div>
+          <div class="tableau-embed-wrapper">
+            <!-- 
+              HOW TO EMBED YOUR TABLEAU DASHBOARD:
+              1. Publish your workbook to Tableau Public (public.tableau.com)
+              2. On the viz page, click Share > Embed Code
+              3. Copy the <script> tag and paste it here, replacing the placeholder below
+              OR use an iframe like this:
+              <iframe src="https://public.tableau.com/views/YOUR_VIZ_NAME/Sheet1?:embed=y&:display_count=no&:showVizHome=no"
+                width="100%" height="500" frameborder="0"></iframe>
+            -->
+            <div class="tableau-placeholder">
+              <div class="placeholder-icon">📊</div>
+              <p>Paste your Tableau embed code here</p>
+              <span>Publish to Tableau Public → Share → Embed Code</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABLEAU EMBED 2 -->
+        <div class="tableau-card reveal">
+          <div class="tableau-card-header">
+            <div>
+              <p class="tableau-card-tag">Operations</p>
+              <h3 class="tableau-card-title">Operational KPI Tracker</h3>
+            </div>
+            <a href="YOUR_TABLEAU_PUBLIC_URL" target="_blank" class="tableau-link-btn" title="Open in Tableau Public">↗</a>
+          </div>
+          <div class="tableau-embed-wrapper">
+            <div class="tableau-placeholder">
+              <div class="placeholder-icon">📈</div>
+              <p>Paste your Tableau embed code here</p>
+              <span>Publish to Tableau Public → Share → Embed Code</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABLEAU EMBED 3 (full width) -->
+        <div class="tableau-card tableau-card-wide reveal">
+          <div class="tableau-card-header">
+            <div>
+              <p class="tableau-card-tag">Customer Analytics</p>
+              <h3 class="tableau-card-title">Customer Lifecycle & Retention Analysis</h3>
+            </div>
+            <a href="YOUR_TABLEAU_PUBLIC_URL" target="_blank" class="tableau-link-btn" title="Open in Tableau Public">↗</a>
+          </div>
+          <div class="tableau-embed-wrapper tableau-embed-tall">
+            <div class="tableau-placeholder">
+              <div class="placeholder-icon">🔍</div>
+              <p>Paste your Tableau embed code here</p>
+              <span>Publish to Tableau Public → Share → Embed Code</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tableau-cta reveal">
+        <a href="https://public.tableau.com/app/profile/YOUR_PROFILE" target="_blank" class="btn-outline">
+          View All on Tableau Public ↗
+        </a>
       </div>
     </div>
   </section>
 
   <!-- PORTFOLIO -->
-  <section id="portfolio">
-    <div class="section-inner">
-      <p class="section-label">Selected Work</p>
-      <h2 class="section-title">Projects &amp; <em>case studies</em></h2>
+  <section id="portfolio" class="section portfolio-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">04 / Portfolio</span>
+        <h2 class="section-title">Selected <em>Work</em></h2>
+      </div>
       <div class="portfolio-grid">
 
-        <a href="#" class="project-card">
-          <p class="project-type">Tableau · SQL</p>
-          <h3 class="project-title">Executive Sales Performance Suite</h3>
-          <p class="project-desc">
-            End-to-end pipeline from a multi-source SQL data model to a suite of Tableau dashboards
-            tracking revenue, pipeline velocity, and rep performance for a 200-person sales organisation.
-          </p>
-          <div class="project-tools">
-            <span class="project-tool">Tableau</span>
-            <span class="project-tool">SQL Server</span>
-            <span class="project-tool">Salesforce</span>
+        <div class="project-card reveal">
+          <div class="project-number">01</div>
+          <div class="project-body">
+            <div class="project-tools-row">
+              <span class="project-tool">Power BI</span>
+              <span class="project-tool">Databricks</span>
+            </div>
+            <h3 class="project-title">Lakehouse Finance Reporting</h3>
+            <p class="project-desc">
+              Migrated a legacy Excel-based finance process to a fully automated
+              Databricks + Power BI solution, cutting report prep time by 80%.
+            </p>
+            <div class="project-outcome">
+              <span class="outcome-label">Impact</span>
+              <span class="outcome-value">80% faster reporting · Daily refresh</span>
+            </div>
           </div>
-          <div class="project-arrow">View Case Study</div>
-        </a>
+          <a href="#" class="project-cta">View Case Study →</a>
+        </div>
 
-        <a href="#" class="project-card">
-          <p class="project-type">Power BI · Databricks</p>
-          <h3 class="project-title">Lakehouse Finance Reporting</h3>
-          <p class="project-desc">
-            Migrated a legacy Excel-based finance reporting process to a fully automated Databricks + Power BI
-            solution, cutting report preparation time by 80% and enabling daily refresh.
-          </p>
-          <div class="project-tools">
-            <span class="project-tool">Power BI</span>
-            <span class="project-tool">Databricks</span>
-            <span class="project-tool">Delta Lake</span>
+        <div class="project-card reveal">
+          <div class="project-number">02</div>
+          <div class="project-body">
+            <div class="project-tools-row">
+              <span class="project-tool">Tableau</span>
+              <span class="project-tool">SQL</span>
+            </div>
+            <h3 class="project-title">Executive Sales Suite</h3>
+            <p class="project-desc">
+              End-to-end pipeline from multi-source SQL modelling to a Tableau dashboard
+              suite tracking revenue and pipeline velocity for 200+ sales reps.
+            </p>
+            <div class="project-outcome">
+              <span class="outcome-label">Impact</span>
+              <span class="outcome-value">Single source of truth for 3 teams</span>
+            </div>
           </div>
-          <div class="project-arrow">View Case Study</div>
-        </a>
+          <a href="#" class="project-cta">View Case Study →</a>
+        </div>
 
-        <a href="#" class="project-card">
-          <p class="project-type">Tableau · SQL</p>
-          <h3 class="project-title">Customer Churn Analytics Dashboard</h3>
-          <p class="project-desc">
-            Interactive churn analysis tool with cohort views, predictive risk scoring integration, and
-            segment drill-through for the Customer Success team to prioritise retention efforts.
-          </p>
-          <div class="project-tools">
-            <span class="project-tool">Tableau</span>
-            <span class="project-tool">PostgreSQL</span>
-            <span class="project-tool">Python</span>
+        <div class="project-card reveal">
+          <div class="project-number">03</div>
+          <div class="project-body">
+            <div class="project-tools-row">
+              <span class="project-tool">Power BI</span>
+              <span class="project-tool">DAX</span>
+            </div>
+            <h3 class="project-title">HR Headcount & Attrition</h3>
+            <p class="project-desc">
+              People analytics solution with headcount evolution, attrition risk flags,
+              and RLS so each manager sees only their own team data.
+            </p>
+            <div class="project-outcome">
+              <span class="outcome-label">Impact</span>
+              <span class="outcome-value">Replaced 6 manual Excel reports</span>
+            </div>
           </div>
-          <div class="project-arrow">View Case Study</div>
-        </a>
+          <a href="#" class="project-cta">View Case Study →</a>
+        </div>
 
-        <a href="#" class="project-card">
-          <p class="project-type">Power BI · DAX</p>
-          <h3 class="project-title">HR Headcount &amp; Attrition Model</h3>
-          <p class="project-desc">
-            People analytics solution with headcount evolution, attrition risk flags, and DEI metrics.
-            Built with Row-Level Security so each manager sees only their own team.
-          </p>
-          <div class="project-tools">
-            <span class="project-tool">Power BI</span>
-            <span class="project-tool">DAX</span>
-            <span class="project-tool">Azure SQL</span>
+        <div class="project-card reveal">
+          <div class="project-number">04</div>
+          <div class="project-body">
+            <div class="project-tools-row">
+              <span class="project-tool">Databricks</span>
+              <span class="project-tool">PySpark</span>
+            </div>
+            <h3 class="project-title">Marketing Attribution Pipeline</h3>
+            <p class="project-desc">
+              Built multi-touch attribution models across 6 ad platforms in Databricks,
+              enabling spend optimisation across a €2M+ quarterly budget.
+            </p>
+            <div class="project-outcome">
+              <span class="outcome-label">Impact</span>
+              <span class="outcome-value">€2M+ budget optimised</span>
+            </div>
           </div>
-          <div class="project-arrow">View Case Study</div>
-        </a>
-
-        <a href="#" class="project-card">
-          <p class="project-type">Databricks · SQL</p>
-          <h3 class="project-title">Unified Marketing Attribution Pipeline</h3>
-          <p class="project-desc">
-            Built a first-touch, last-touch, and linear attribution model in Databricks, pulling from 6
-            ad platforms via API, enabling spend optimisation across £2M+ quarterly budget.
-          </p>
-          <div class="project-tools">
-            <span class="project-tool">Databricks</span>
-            <span class="project-tool">PySpark</span>
-            <span class="project-tool">Tableau</span>
-          </div>
-          <div class="project-arrow">View Case Study</div>
-        </a>
-
-        <a href="#" class="project-card">
-          <p class="project-type">Power BI · Databricks</p>
-          <h3 class="project-title">Operational KPI Command Centre</h3>
-          <p class="project-desc">
-            Real-time operational dashboard with sub-minute refresh using Databricks streaming and
-            Power BI DirectQuery, monitoring logistics KPIs across 14 warehouse locations.
-          </p>
-          <div class="project-tools">
-            <span class="project-tool">Power BI</span>
-            <span class="project-tool">Databricks</span>
-            <span class="project-tool">Streaming</span>
-          </div>
-          <div class="project-arrow">View Case Study</div>
-        </a>
+          <a href="#" class="project-cta">View Case Study →</a>
+        </div>
 
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
-  <section id="contact">
-    <div class="section-inner">
-      <div>
-        <p class="section-label">Let's Talk</p>
-        <h2 class="section-title">Open to new<br><em>opportunities</em></h2>
-        <p class="contact-sub">
-          Whether you have a data challenge to solve, a dashboard to build, or just want to connect —
-          I'd love to hear from you.
-        </p>
-        <a href="mailto:alex@example.com" class="btn-contact">Send Me an Email</a>
+  <section id="contact" class="section contact-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">05 / Contact</span>
+        <h2 class="section-title">Get In <em>Touch</em></h2>
       </div>
-      <div class="contact-links">
-        <div class="contact-link-row">
-          <div class="contact-link-icon">✉️</div>
-          <div>
-            <p class="contact-link-label">Email</p>
-            <a href="mailto:alex@example.com" class="contact-link-value">alex@example.com</a>
+      <div class="contact-grid">
+        <div class="contact-left reveal">
+          <p class="contact-lead">
+            Have a project in mind or want to connect? I'm always open to
+            discussing new opportunities and interesting data challenges.
+          </p>
+          <div class="contact-links">
+            <a href="mailto:your@email.com" class="contact-item">
+              <span class="contact-icon">✉</span>
+              <div>
+                <p class="contact-item-label">Email</p>
+                <p class="contact-item-value">your@email.com</p>
+              </div>
+            </a>
+            <a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-item">
+              <span class="contact-icon">in</span>
+              <div>
+                <p class="contact-item-label">LinkedIn</p>
+                <p class="contact-item-value">linkedin.com/in/yourprofile</p>
+              </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/yourprofile" target="_blank" class="contact-item">
+              <span class="contact-icon">📊</span>
+              <div>
+                <p class="contact-item-label">Tableau Public</p>
+                <p class="contact-item-value">public.tableau.com/yourprofile</p>
+              </div>
+            </a>
+            <a href="https://github.com/yourusername" target="_blank" class="contact-item">
+              <span class="contact-icon">⌥</span>
+              <div>
+                <p class="contact-item-label">GitHub</p>
+                <p class="contact-item-value">github.com/yourusername</p>
+              </div>
+            </a>
           </div>
         </div>
-        <div class="contact-link-row">
-          <div class="contact-link-icon">💼</div>
-          <div>
-            <p class="contact-link-label">LinkedIn</p>
-            <a href="#" class="contact-link-value">linkedin.com/in/alexmorgan</a>
-          </div>
-        </div>
-        <div class="contact-link-row">
-          <div class="contact-link-icon">🐙</div>
-          <div>
-            <p class="contact-link-label">GitHub</p>
-            <a href="#" class="contact-link-value">github.com/alexmorgan</a>
-          </div>
-        </div>
-        <div class="contact-link-row">
-          <div class="contact-link-icon">📍</div>
-          <div>
-            <p class="contact-link-label">Location</p>
-            <span class="contact-link-value">Brussels, Belgium</span>
-          </div>
+        <div class="contact-right reveal">
+          <form class="contact-form" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" name="name" placeholder="John Smith" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="john@company.com" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..."></textarea>
+            </div>
+            <button type="submit" class="btn-primary btn-full">Send Message</button>
+          </form>
         </div>
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer>
-    <p>© 2026 Alex Morgan. All rights reserved.</p>
-    <p>Built with HTML · CSS · No frameworks needed</p>
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-brand">YN<span class="dot">.</span></span>
+      <p class="footer-copy">© 2026 Your Name. Crafted with purpose.</p>
+      <div class="footer-socials">
+        <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+        <a href="https://public.tableau.com/app/profile/yourprofile" target="_blank">Tableau</a>
+        <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+      </div>
+    </div>
   </footer>
+
+  <script>
+    // ── TYPING ANIMATION ──────────────────────────────────
+    const roles = ['BI Developer', 'Tableau Expert', 'Power BI Developer', 'Data Analyst', 'SQL Engineer'];
+    let roleIndex = 0, charIndex = 0, isDeleting = false;
+    const el = document.getElementById('typedText');
+
+    function type() {
+      const current = roles[roleIndex];
+      if (isDeleting) {
+        el.textContent = current.substring(0, charIndex--);
+        if (charIndex < 0) { isDeleting = false; roleIndex = (roleIndex + 1) % roles.length; setTimeout(type, 500); return; }
+      } else {
+        el.textContent = current.substring(0, charIndex++);
+        if (charIndex > current.length) { isDeleting = true; setTimeout(type, 1800); return; }
+      }
+      setTimeout(type, isDeleting ? 60 : 100);
+    }
+    setTimeout(type, 1000);
+
+    // ── SCROLL REVEAL ─────────────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── SKILL BARS ────────────────────────────────────────
+    const skillObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.skill-fill').forEach(bar => {
+            bar.style.width = bar.dataset.width + '%';
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.skills-col').forEach(col => skillObserver.observe(col));
+
+    // ── NAVBAR SCROLL ─────────────────────────────────────
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // ── MOBILE MENU ───────────────────────────────────────
+    const toggle = document.getElementById('navToggle');
+    const menu = document.getElementById('mobileMenu');
+    toggle.addEventListener('click', () => {
+      menu.classList.toggle('open');
+      toggle.classList.toggle('active');
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => { menu.classList.remove('open'); toggle.classList.remove('active'); });
+    });
+
+    // ── CUSTOM CURSOR ─────────────────────────────────────
+    const cursor = document.getElementById('cursor');
+    const follower = document.getElementById('cursorFollower');
+    let mx = 0, my = 0, fx = 0, fy = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.transform = `translate(${mx}px,${my}px)`; });
+    function followCursor() { fx += (mx - fx) * 0.12; fy += (my - fy) * 0.12; follower.style.transform = `translate(${fx}px,${fy}px)`; requestAnimationFrame(followCursor); }
+    followCursor();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+    });
+
+    // ── SMOOTH SCROLL ─────────────────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // ── FORM SUBMIT (placeholder) ─────────────────────────
+    function handleSubmit(e) {
+      e.preventDefault();
+      alert('Thanks for your message! (Connect this form to Formspree or EmailJS to make it work)');
+    }
+  </script>
 
 </body>
 </html>
