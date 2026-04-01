@@ -23,6 +23,7 @@
         <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#tableau">Tableau</a></li>
+        <li><a href="#certifications">Certifications</a></li>
         <li><a href="#portfolio">Portfolio</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -38,6 +39,7 @@
       <li><a href="#about" class="mobile-link">About</a></li>
       <li><a href="#skills" class="mobile-link">Skills</a></li>
       <li><a href="#tableau" class="mobile-link">Tableau</a></li>
+      <li><a href="#certifications" class="mobile-link">Certifications</a></li>
       <li><a href="#portfolio" class="mobile-link">Portfolio</a></li>
       <li><a href="#contact" class="mobile-link">Contact</a></li>
     </ul>
@@ -204,8 +206,13 @@
 
       <div class="tableau-grid">
 
-        <!-- TABLEAU EMBED 1 -->
-        <div class="tableau-card tableau-card-wide reveal">
+        <!-- ═══════════════════════════════════════════════
+             TABLEAU CARD 1
+             To add your GIF: replace src="images/dashboard-1.gif"
+             with the actual path to your GIF file.
+             Also update the title, tag, and href link below.
+        ═══════════════════════════════════════════════ -->
+        <div class="tableau-card reveal">
           <div class="tableau-card-header">
             <div>
               <p class="tableau-card-tag">Data Visualisation · Deloitte Viz Games 2024</p>
@@ -213,73 +220,82 @@
             </div>
             <a href="https://public.tableau.com/views/IgnitingUnityDeloitteVizGames2024/VizGames" target="_blank" class="tableau-link-btn" title="Open in Tableau Public">↗</a>
           </div>
-          <div class="tableau-embed-wrapper tableau-embed-scroll">
-            <div class='tableauPlaceholder' id='viz1775054610104' style='position: relative; width: 100%;'>
-              <noscript>
-                <a href='#'><img alt='Viz Games' src='https://public.tableau.com/static/images/Ig/IgnitingUnityDeloitteVizGames2024/VizGames/1_rss.png' style='border: none' /></a>
-              </noscript>
-              <object class='tableauViz' style='display:none;'>
-                <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
-                <param name='embed_code_version' value='3' />
-                <param name='site_root' value='' />
-                <param name='name' value='IgnitingUnityDeloitteVizGames2024/VizGames' />
-                <param name='tabs' value='no' />
-                <param name='toolbar' value='yes' />
-                <param name='static_image' value='https://public.tableau.com/static/images/Ig/IgnitingUnityDeloitteVizGames2024/VizGames/1.png' />
-                <param name='animate_transition' value='yes' />
-                <param name='display_static_image' value='yes' />
-                <param name='display_spinner' value='yes' />
-                <param name='display_overlay' value='yes' />
-                <param name='display_count' value='yes' />
-                <param name='language' value='en-US' />
-              </object>
+          <div class="tableau-gif-wrapper">
+            <img
+              src="images/dashboard-1.gif"
+              alt="Igniting Unity Dashboard Preview"
+              class="tableau-gif"
+              onerror="this.parentElement.classList.add('gif-missing')"
+            />
+            <div class="gif-overlay">
+              <span class="gif-overlay-text">Click to explore ↗</span>
             </div>
-            <script type='text/javascript'>
-              (function() {
-                var divElement = document.getElementById('viz1775054610104');
-                var vizElement = divElement.getElementsByTagName('object')[0];
-                vizElement.style.width = '100%';
-                vizElement.style.height = '900px';
-                var scriptElement = document.createElement('script');
-                scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-                vizElement.parentNode.insertBefore(scriptElement, vizElement);
-              })();
-            </script>
+            <div class="gif-missing-msg">
+              <div class="gif-missing-icon">🎬</div>
+              <p>Add your GIF here</p>
+              <span>Place your file at <code>images/dashboard-1.gif</code></span>
+            </div>
           </div>
         </div>
 
-        <!-- TABLEAU EMBED 2 -->
+        <!-- ═══════════════════════════════════════════════
+             TABLEAU CARD 2
+             To add your GIF: replace src="images/dashboard-2.gif"
+             with the actual path to your GIF file.
+        ═══════════════════════════════════════════════ -->
         <div class="tableau-card reveal">
           <div class="tableau-card-header">
             <div>
-              <p class="tableau-card-tag">Operations</p>
-              <h3 class="tableau-card-title">Operational KPI Tracker</h3>
+              <p class="tableau-card-tag">Add your category here</p>
+              <h3 class="tableau-card-title">Your Dashboard Title</h3>
             </div>
             <a href="YOUR_TABLEAU_PUBLIC_URL" target="_blank" class="tableau-link-btn" title="Open in Tableau Public">↗</a>
           </div>
-          <div class="tableau-embed-wrapper">
-            <div class="tableau-placeholder">
-              <div class="placeholder-icon">📈</div>
-              <p>Paste your Tableau embed code here</p>
-              <span>Publish to Tableau Public → Share → Embed Code</span>
+          <div class="tableau-gif-wrapper">
+            <img
+              src="images/dashboard-2.gif"
+              alt="Dashboard 2 Preview"
+              class="tableau-gif"
+              onerror="this.parentElement.classList.add('gif-missing')"
+            />
+            <div class="gif-overlay">
+              <span class="gif-overlay-text">Click to explore ↗</span>
+            </div>
+            <div class="gif-missing-msg">
+              <div class="gif-missing-icon">🎬</div>
+              <p>Add your GIF here</p>
+              <span>Place your file at <code>images/dashboard-2.gif</code></span>
             </div>
           </div>
         </div>
 
-        <!-- TABLEAU EMBED 3 (full width) -->
+        <!-- ═══════════════════════════════════════════════
+             TABLEAU CARD 3 (full width)
+             To add your GIF: replace src="images/dashboard-3.gif"
+             with the actual path to your GIF file.
+        ═══════════════════════════════════════════════ -->
         <div class="tableau-card tableau-card-wide reveal">
           <div class="tableau-card-header">
             <div>
-              <p class="tableau-card-tag">Customer Analytics</p>
-              <h3 class="tableau-card-title">Customer Lifecycle & Retention Analysis</h3>
+              <p class="tableau-card-tag">Add your category here</p>
+              <h3 class="tableau-card-title">Your Dashboard Title</h3>
             </div>
             <a href="YOUR_TABLEAU_PUBLIC_URL" target="_blank" class="tableau-link-btn" title="Open in Tableau Public">↗</a>
           </div>
-          <div class="tableau-embed-wrapper tableau-embed-tall">
-            <div class="tableau-placeholder">
-              <div class="placeholder-icon">🔍</div>
-              <p>Paste your Tableau embed code here</p>
-              <span>Publish to Tableau Public → Share → Embed Code</span>
+          <div class="tableau-gif-wrapper tableau-gif-wide">
+            <img
+              src="images/dashboard-3.gif"
+              alt="Dashboard 3 Preview"
+              class="tableau-gif"
+              onerror="this.parentElement.classList.add('gif-missing')"
+            />
+            <div class="gif-overlay">
+              <span class="gif-overlay-text">Click to explore ↗</span>
+            </div>
+            <div class="gif-missing-msg">
+              <div class="gif-missing-icon">🎬</div>
+              <p>Add your GIF here</p>
+              <span>Place your file at <code>images/dashboard-3.gif</code></span>
             </div>
           </div>
         </div>
@@ -287,9 +303,133 @@
       </div>
 
       <div class="tableau-cta reveal">
-        <a href="https://public.tableau.com/app/profile/YOUR_PROFILE" target="_blank" class="btn-outline">
+        <a href="https://public.tableau.com/app/profile/ilias.blioumis/vizzes" target="_blank" class="btn-outline">
           View All on Tableau Public ↗
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications" class="section cert-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">04 / Certifications</span>
+        <h2 class="section-title">Licences & <em>Certifications</em></h2>
+      </div>
+      <div class="cert-grid">
+
+        <div class="cert-card reveal">
+          <div class="cert-logo cert-logo-databricks">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="40" height="40" rx="8" fill="#FF3621"/>
+              <path d="M20 8L30 14V22L20 28L10 22V14L20 8Z" fill="white" opacity="0.9"/>
+              <path d="M20 13L26 16.5V23.5L20 27L14 23.5V16.5L20 13Z" fill="#FF3621"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <h3 class="cert-title">Databricks Fundamentals</h3>
+            <p class="cert-issuer">Databricks</p>
+            <p class="cert-date">Issued Oct 2025</p>
+            <div class="cert-tags">
+              <span class="cert-tag">Lakehouse</span>
+              <span class="cert-tag">Databricks</span>
+              <span class="cert-tag">Delta Lake</span>
+            </div>
+          </div>
+          <a href="#" target="_blank" class="cert-btn">Show credential ↗</a>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-logo cert-logo-tableau">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="40" height="40" rx="8" fill="#E8F0FE"/>
+              <rect x="18" y="8" width="4" height="24" rx="1" fill="#1F6EEB"/>
+              <rect x="8" y="18" width="24" height="4" rx="1" fill="#1F6EEB"/>
+              <rect x="13" y="13" width="4" height="14" rx="1" fill="#5AA3F0" opacity="0.7"/>
+              <rect x="23" y="13" width="4" height="14" rx="1" fill="#5AA3F0" opacity="0.7"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <h3 class="cert-title">Tableau Desktop Specialist</h3>
+            <p class="cert-issuer">Tableau</p>
+            <p class="cert-date">Issued May 2025</p>
+            <div class="cert-tags">
+              <span class="cert-tag">Tableau</span>
+              <span class="cert-tag">Data Viz</span>
+            </div>
+          </div>
+          <a href="https://www.credly.com/badges/4feb46ed-e186-439a-ad9c-aab3b867734e" target="_blank" class="cert-btn">Show credential ↗</a>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-logo cert-logo-microsoft">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="40" height="40" rx="8" fill="#F3F3F3"/>
+              <rect x="9" y="9" width="10" height="10" fill="#F25022"/>
+              <rect x="21" y="9" width="10" height="10" fill="#7FBA00"/>
+              <rect x="9" y="21" width="10" height="10" fill="#00A4EF"/>
+              <rect x="21" y="21" width="10" height="10" fill="#FFB900"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <h3 class="cert-title">Azure AI Fundamentals</h3>
+            <p class="cert-issuer">Microsoft</p>
+            <p class="cert-date">Issued Mar 2025</p>
+            <div class="cert-tags">
+              <span class="cert-tag">Azure</span>
+              <span class="cert-tag">AI</span>
+              <span class="cert-tag">Machine Learning</span>
+            </div>
+          </div>
+          <a href="#" target="_blank" class="cert-btn">Show credential ↗</a>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-logo cert-logo-tableau">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="40" height="40" rx="8" fill="#E8F0FE"/>
+              <rect x="18" y="8" width="4" height="24" rx="1" fill="#1F6EEB"/>
+              <rect x="8" y="18" width="24" height="4" rx="1" fill="#1F6EEB"/>
+              <rect x="13" y="13" width="4" height="14" rx="1" fill="#5AA3F0" opacity="0.7"/>
+              <rect x="23" y="13" width="4" height="14" rx="1" fill="#5AA3F0" opacity="0.7"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <h3 class="cert-title">Tableau Certified Data Analyst</h3>
+            <p class="cert-issuer">Tableau</p>
+            <p class="cert-date">Apr 2024 · Expires Apr 2026</p>
+            <div class="cert-tags">
+              <span class="cert-tag">Tableau</span>
+              <span class="cert-tag">Data Visualization</span>
+            </div>
+          </div>
+          <a href="#" target="_blank" class="cert-btn">Show credential ↗</a>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-logo cert-logo-microsoft">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="40" height="40" rx="8" fill="#F3F3F3"/>
+              <rect x="9" y="9" width="10" height="10" fill="#F25022"/>
+              <rect x="21" y="9" width="10" height="10" fill="#7FBA00"/>
+              <rect x="9" y="21" width="10" height="10" fill="#00A4EF"/>
+              <rect x="21" y="21" width="10" height="10" fill="#FFB900"/>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <h3 class="cert-title">Power BI Data Analyst Associate</h3>
+            <p class="cert-issuer">Microsoft</p>
+            <p class="cert-date">Issued Jan 2024</p>
+            <div class="cert-tags">
+              <span class="cert-tag">Power BI</span>
+              <span class="cert-tag">Analytics</span>
+              <span class="cert-tag">DAX</span>
+            </div>
+          </div>
+          <a href="#" target="_blank" class="cert-btn">Show credential ↗</a>
+        </div>
+
       </div>
     </div>
   </section>
@@ -298,7 +438,7 @@
   <section id="portfolio" class="section portfolio-section">
     <div class="container">
       <div class="section-header reveal">
-        <span class="section-tag">04 / Portfolio</span>
+        <span class="section-tag">05 / Portfolio</span>
         <h2 class="section-title">Selected <em>Work</em></h2>
       </div>
       <div class="portfolio-grid">
@@ -391,7 +531,7 @@
   <section id="contact" class="section contact-section">
     <div class="container">
       <div class="section-header reveal">
-        <span class="section-tag">05 / Contact</span>
+        <span class="section-tag">06 / Contact</span>
         <h2 class="section-title">Get In <em>Touch</em></h2>
       </div>
       <div class="contact-grid">
