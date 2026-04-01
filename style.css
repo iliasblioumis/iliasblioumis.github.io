@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════
    BI DEVELOPER PORTFOLIO — style.css
-   Industrial-modern aesthetic
+   Dark industrial-modern aesthetic
    ═══════════════════════════════════════════════════════ */
 
 /* ── VARIABLES ────────────────────────────────────────── */
@@ -85,12 +85,38 @@ nav.scrolled {
   align-items: center;
   justify-content: space-between;
 }
-.nav-brand {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  color: var(--text);
-  letter-spacing: -0.02em;
+/* nav ring replaces text brand */
+.nav-ring-link {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--accent);
+  text-decoration: none;
 }
+.nav-badge-svg {
+  width: 48px;
+  height: 48px;
+  overflow: visible;
+}
+.nav-badge-svg .nav-badge-text {
+  fill: var(--text-muted);
+  font-size: 5.6px;
+  font-family: var(--font-body);
+  letter-spacing: 0.04em;
+  animation: rotate 18s linear infinite;
+  transform-origin: 24px 24px;
+}
+.nav-badge-svg .nav-inner-ring {
+  color: var(--accent);
+}
+.nav-badge-svg .nav-badge-initials {
+  fill: var(--accent);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+@keyframes rotate { to { transform: rotate(360deg); } }
 .dot { color: var(--accent); }
 .nav-links {
   list-style: none;
@@ -322,49 +348,8 @@ nav.scrolled {
 }
 @keyframes scrollPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-.hero-badge {
-  position: absolute;
-  right: 4rem; top: 50%;
-  transform: translateY(-50%);
-  animation-delay: 0.5s;
-}
-.badge-ring {
-  position: relative;
-  width: 200px; height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.badge-svg {
-  position: absolute;
-  inset: 0;
-  animation: rotate 20s linear infinite;
-  overflow: visible;
-}
-@keyframes rotate { to { transform: rotate(360deg); } }
-.badge-text-svg {
-  fill: var(--text-muted);
-  font-size: 10px;
-  font-family: var(--font-body);
-  letter-spacing: 0.15em;
-}
-.badge-center {
-  width: 80px; height: 80px;
-  background: var(--accent-dim);
-  border: 1px solid var(--accent);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  color: var(--accent);
-  position: relative;
-  z-index: 1;
-}
-
 /* ── ABOUT ────────────────────────────────────────────── */
-.about-section { background: rgba(255,255,255,0.82); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.about-section { background: transparent; }
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1.4fr;
@@ -463,7 +448,7 @@ nav.scrolled {
 @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 6px transparent; } }
 
 /* ── SKILLS ───────────────────────────────────────────── */
-.skills-section { background: rgba(255,255,255,0.82); }
+.skills-section { background: transparent; }
 .skills-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -531,7 +516,7 @@ nav.scrolled {
 .tool-tag:hover, .tool-tag.teal { border-color: var(--accent); color: var(--accent); }
 
 /* ── TABLEAU ──────────────────────────────────────────── */
-.tableau-section { background: rgba(255,255,255,0.82); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.tableau-section { background: transparent; }
 .tableau-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -656,7 +641,7 @@ nav.scrolled {
 .tableau-cta { text-align: center; }
 
 /* ── CERTIFICATIONS ───────────────────────────────────── */
-.cert-section { background: rgba(255,255,255,0.82); }
+.cert-section { background: transparent; }
 .cert-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -733,7 +718,7 @@ nav.scrolled {
 .cert-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
 
 /* ── PORTFOLIO ────────────────────────────────────────── */
-.portfolio-section { background: rgba(255,255,255,0.82); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.portfolio-section { background: transparent; }
 .portfolio-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -819,7 +804,7 @@ nav.scrolled {
 .project-card:hover .project-cta { color: var(--accent); letter-spacing: 0.15em; }
 
 /* ── CONTACT ──────────────────────────────────────────── */
-.contact-section { background: rgba(255,255,255,0.82); border-top: 1px solid var(--border); }
+.contact-section { background: transparent; }
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -949,7 +934,6 @@ nav.scrolled {
 
 /* ── RESPONSIVE ───────────────────────────────────────── */
 @media (max-width: 1024px) {
-  .hero-badge { display: none; }
   .about-grid { grid-template-columns: 1fr; gap: 3rem; }
   .about-image-frame { max-width: 320px; }
   .cert-grid { grid-template-columns: 1fr 1fr; }
