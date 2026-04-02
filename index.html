@@ -666,33 +666,56 @@
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // ── BADGE RING: auto-rotate → scroll-driven ───────────
+    // ── BADGE RING: scroll-driven → auto after 3s idle ────
     const badgeSvg = document.getElementById('badgeSvg');
     if (badgeSvg) {
       let rotation = 0;
       let lastScrollY = window.scrollY;
       let autoRotating = true;
-      let rafId;
+      let idleTimer = null;
+      let rafId = null;
+      let lastTimestamp = null;
 
-      // Auto-rotate loop
-      function autoRotate() {
+      // Auto-rotate loop (constant speed)
+      function autoRotate(ts) {
         if (!autoRotating) return;
-        rotation += 0.4;
+        if (lastTimestamp !== null) {
+          const delta = ts - lastTimestamp;
+          rotation += delta * 0.04; // ~40°/s
+        }
+        lastTimestamp = ts;
         badgeSvg.style.transform = `rotate(${rotation}deg)`;
         rafId = requestAnimationFrame(autoRotate);
       }
-      rafId = requestAnimationFrame(autoRotate);
 
-      // On first scroll: stop auto, switch to scroll-driven
+      function startAutoRotate() {
+        autoRotating = true;
+        lastTimestamp = null;
+        rafId = requestAnimationFrame(autoRotate);
+      }
+
+      function stopAutoRotate() {
+        autoRotating = false;
+        lastTimestamp = null;
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      }
+
+      // Kick off auto-rotate on load
+      startAutoRotate();
+
       window.addEventListener('scroll', () => {
-        if (autoRotating) {
-          autoRotating = false;
-          cancelAnimationFrame(rafId);
-        }
+        // Stop auto-rotate while scrolling
+        if (autoRotating) stopAutoRotate();
+
+        // Rotate proportional to scroll speed
         const delta = window.scrollY - lastScrollY;
-        rotation += delta * 0.25;
+        rotation += delta * 0.5;
         badgeSvg.style.transform = `rotate(${rotation}deg)`;
         lastScrollY = window.scrollY;
+
+        // Reset idle timer — restart auto-rotate after 3s of no scrolling
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(startAutoRotate, 3000);
       }, { passive: true });
     }
 
