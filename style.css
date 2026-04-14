@@ -27,6 +27,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
+  position: relative;
   background-color: var(--bg);
   background-image:
     linear-gradient(var(--border) 1px, transparent 1px),
@@ -50,11 +51,6 @@ body {
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  overflow: hidden;
-}
-.ambient-dots ~ * {
-  position: relative;
-  z-index: 1;
 }
 .ambient-dot {
   position: absolute;
@@ -65,7 +61,7 @@ body {
   border-radius: 50%;
   background: var(--dot-color, var(--accent));
   opacity: 0;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 0 12px rgba(13,122,111,0.12);
+  will-change: transform, opacity;
   animation: ambientDrift var(--dot-duration, 16s) ease-in-out var(--dot-delay, 0s) infinite,
              ambientBreathe calc(var(--dot-duration, 16s) * 0.65) ease-in-out var(--dot-delay, 0s) infinite;
 }
