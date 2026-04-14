@@ -177,7 +177,7 @@
 
       <!-- ICON MARQUEE CHAIN -->
       <div class="marquee-wrapper">
-        <div class="marquee-track" id="marqueeTrack">
+        <div class="marquee-track">
           <!-- SET 1 -->
           <!-- Tableau: official multi-colour cross hash -->
           <div class="marquee-item" title="Tableau"><svg viewBox="0 0 32 32" fill="none"><rect x="14.5" y="3" width="3" height="26" fill="#1B4D8E"/><rect x="3" y="14.5" width="26" height="3" fill="#1B4D8E"/><rect x="4.5" y="8" width="2.5" height="10" fill="#E8762B"/><rect x="1" y="11.5" width="9" height="2.5" fill="#E8762B"/><rect x="25" y="8" width="2.5" height="10" fill="#59A8AC"/><rect x="22" y="11.5" width="9" height="2.5" fill="#59A8AC"/><rect x="4.5" y="22" width="2.5" height="9" fill="#89A9C8"/><rect x="1" y="24" width="9" height="2.5" fill="#89A9C8"/><rect x="25" y="22" width="2.5" height="9" fill="#E8762B"/><rect x="22" y="24" width="9" height="2.5" fill="#E8762B"/></svg></div>
@@ -765,23 +765,6 @@
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // ── MARQUEE WAVE ───────────────────────────────────────
-    (function() {
-      const items = document.querySelectorAll('#marqueeTrack .marquee-item');
-      const amplitude = 13;   // px up/down
-      const speed     = 1.4;  // wave cycles per second
-      const phaseGap  = 0.42; // radians between each icon
-
-      function waveFrame(ts) {
-        const t = ts / 1000;
-        items.forEach((el, i) => {
-          const y = Math.sin(t * speed * Math.PI * 2 + i * phaseGap) * amplitude;
-          el.style.transform = `translateY(${y}px)`;
-        });
-        requestAnimationFrame(waveFrame);
-      }
-      requestAnimationFrame(waveFrame);
-    })();
 
     // ── BADGE RING: scroll-driven → auto after 3s idle ────
     const badgeSvg = document.getElementById('badgeSvg');
