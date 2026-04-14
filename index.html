@@ -14,7 +14,7 @@
 
   <!-- CUSTOM CURSOR -->
   <div class="cursor" id="cursor"></div>
-  <div class="cursor-follower" id="cursorFollower"></div>
+
   <div class="ambient-dots" id="ambientDots" aria-hidden="true"></div>
 
   <!-- NAV -->
@@ -177,7 +177,7 @@
 
       <!-- ICON MARQUEE CHAIN -->
       <div class="marquee-wrapper">
-        <div class="marquee-track">
+        <div class="marquee-track" id="marqueeTrack">
           <!-- SET 1 -->
           <!-- Tableau: official multi-colour cross hash -->
           <div class="marquee-item" title="Tableau"><svg viewBox="0 0 32 32" fill="none"><rect x="14.5" y="3" width="3" height="26" fill="#1B4D8E"/><rect x="3" y="14.5" width="26" height="3" fill="#1B4D8E"/><rect x="4.5" y="8" width="2.5" height="10" fill="#E8762B"/><rect x="1" y="11.5" width="9" height="2.5" fill="#E8762B"/><rect x="25" y="8" width="2.5" height="10" fill="#59A8AC"/><rect x="22" y="11.5" width="9" height="2.5" fill="#59A8AC"/><rect x="4.5" y="22" width="2.5" height="9" fill="#89A9C8"/><rect x="1" y="24" width="9" height="2.5" fill="#89A9C8"/><rect x="25" y="22" width="2.5" height="9" fill="#E8762B"/><rect x="22" y="24" width="9" height="2.5" fill="#E8762B"/></svg></div>
@@ -855,11 +855,8 @@
 
     // ── CUSTOM CURSOR ─────────────────────────────────────
     const cursor = document.getElementById('cursor');
-    const follower = document.getElementById('cursorFollower');
     document.addEventListener('mousemove', e => {
-      const t = `translate3d(${e.clientX}px,${e.clientY}px,0)`;
-      cursor.style.transform = t;
-      follower.style.transform = t;
+      cursor.style.transform = `translate3d(${e.clientX}px,${e.clientY}px,0)`;
     });
     document.querySelectorAll('a, button').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));

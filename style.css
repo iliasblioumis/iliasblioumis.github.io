@@ -41,6 +41,7 @@ body {
   overflow-x: hidden;
   cursor: none;
 }
+*, *::before, *::after { cursor: none !important; }
 
 /* ── AMBIENT DOT FIELD ───────────────────────────────── */
 .ambient-dots {
@@ -101,15 +102,7 @@ img { max-width: 100%; display: block; }
   transition: width 0.15s, height 0.15s, margin 0.15s, background 0.15s;
 }
 .cursor.hovered { width: 16px; height: 16px; margin-left: -8px; margin-top: -8px; background: transparent; border: 2px solid var(--accent); }
-.cursor-follower {
-  position: fixed; top: 0; left: 0; z-index: 9998;
-  width: 32px; height: 32px;
-  margin-left: -16px; margin-top: -16px;
-  border: 1px solid rgba(13,122,111,0.25);
-  border-radius: 50%;
-  pointer-events: none;
-  will-change: transform;
-}
+
 
 /* ── NAV ──────────────────────────────────────────────── */
 nav {
@@ -434,7 +427,7 @@ nav.scrolled {
 .about-stat-badge {
   position: absolute;
   bottom: 2rem;
-  right: -1.5rem;
+  left: 0;
   background: var(--accent);
   color: #fff;
   padding: 1rem 1.25rem;
@@ -1043,8 +1036,8 @@ nav.scrolled {
   .hero-actions { flex-direction: column; align-items: flex-start; }
   .about-info-grid { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; text-align: center; }
-  body { cursor: auto; }
-  .cursor, .cursor-follower { display: none; }
+  body, body *, body *::before, body *::after { cursor: auto !important; }
+  .cursor { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
