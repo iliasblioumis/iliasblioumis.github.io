@@ -40,6 +40,54 @@ body {
   overflow-x: hidden;
   cursor: none;
 }
+
+/* ── AMBIENT DOT FIELD ───────────────────────────────── */
+.ambient-dots {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.ambient-dots ~ * {
+  position: relative;
+  z-index: 1;
+}
+.ambient-dot {
+  position: absolute;
+  left: var(--dot-x, 50%);
+  top: var(--dot-y, 50%);
+  width: var(--dot-size, 8px);
+  height: var(--dot-size, 8px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), var(--dot-color, var(--accent)) 52%, rgba(13,122,111,0) 76%);
+  opacity: 0;
+  filter: blur(0.4px);
+  animation: ambientDrift var(--dot-duration, 16s) ease-in-out var(--dot-delay, 0s) infinite,
+             ambientBreathe calc(var(--dot-duration, 16s) * 0.65) ease-in-out var(--dot-delay, 0s) infinite;
+}
+@keyframes ambientDrift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.8);
+  }
+  50% {
+    transform: translate3d(calc(var(--dot-drift-x, 60px) * 0.55), calc(var(--dot-drift-y, -50px) * 0.55), 0) scale(1);
+  }
+  100% {
+    transform: translate3d(var(--dot-drift-x, 60px), var(--dot-drift-y, -50px), 0) scale(0.86);
+  }
+}
+@keyframes ambientBreathe {
+  0%, 100% {
+    opacity: 0;
+  }
+  30% {
+    opacity: var(--dot-opacity, 0.28);
+  }
+  70% {
+    opacity: calc(var(--dot-opacity, 0.28) * 0.82);
+  }
+}
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 
@@ -1034,6 +1082,13 @@ nav.scrolled {
   .footer-inner { flex-direction: column; text-align: center; }
   body { cursor: auto; }
   .cursor, .cursor-follower { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-dot {
+    animation: none;
+    opacity: 0.16;
+  }
 }
 
 @media (max-width: 480px) {

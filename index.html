@@ -14,6 +14,7 @@
   <!-- CUSTOM CURSOR -->
   <div class="cursor" id="cursor"></div>
   <div class="cursor-follower" id="cursorFollower"></div>
+  <div class="ambient-dots" id="ambientDots" aria-hidden="true"></div>
 
   <!-- NAV -->
   <nav id="navbar">
@@ -674,6 +675,61 @@
   </footer>
 
   <script>
+    // ── AMBIENT DOTS ──────────────────────────────────────
+    (function() {
+      const host = document.getElementById('ambientDots');
+      if (!host) return;
+
+      const palette = ['#0D7A6F', '#C9A84C', '#B7C8C2', '#6BA79E'];
+      const dotCount = window.matchMedia('(max-width: 768px)').matches ? 18 : 30;
+
+      function randomBetween(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      function configureDot(dot, seedDelay = false) {
+        const size = randomBetween(4, 12).toFixed(2) + 'px';
+        const x = randomBetween(0, 100).toFixed(2) + '%';
+        const y = randomBetween(0, 100).toFixed(2) + '%';
+        const driftX = randomBetween(-140, 140).toFixed(1) + 'px';
+        const driftY = randomBetween(-120, 120).toFixed(1) + 'px';
+        const duration = randomBetween(13, 24).toFixed(2) + 's';
+        const opacity = randomBetween(0.16, 0.44).toFixed(2);
+        const color = palette[Math.floor(Math.random() * palette.length)];
+
+        dot.style.setProperty('--dot-size', size);
+        dot.style.setProperty('--dot-x', x);
+        dot.style.setProperty('--dot-y', y);
+        dot.style.setProperty('--dot-drift-x', driftX);
+        dot.style.setProperty('--dot-drift-y', driftY);
+        dot.style.setProperty('--dot-duration', duration);
+        dot.style.setProperty('--dot-opacity', opacity);
+        dot.style.setProperty('--dot-color', color);
+
+        if (seedDelay) {
+          dot.style.setProperty('--dot-delay', (-Math.random() * 24).toFixed(2) + 's');
+        }
+      }
+
+      for (let i = 0; i < dotCount; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'ambient-dot';
+        configureDot(dot, true);
+        host.appendChild(dot);
+      }
+
+      setInterval(() => {
+        const dots = host.querySelectorAll('.ambient-dot');
+        if (!dots.length) return;
+
+        const updates = Math.max(2, Math.round(dots.length * 0.14));
+        for (let i = 0; i < updates; i++) {
+          const dot = dots[Math.floor(Math.random() * dots.length)];
+          configureDot(dot);
+        }
+      }, 2800);
+    })();
+
     // ── TYPING ANIMATION ──────────────────────────────────
     const roles = ['BI Developer', 'Tableau Expert', 'Power BI Developer', 'Data Analyst', 'SQL Engineer'];
     let roleIndex = 0, charIndex = 0, isDeleting = false;
