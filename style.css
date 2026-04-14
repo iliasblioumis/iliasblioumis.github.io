@@ -164,6 +164,8 @@ nav.scrolled {
 }
 .nav-links a:hover { color: var(--accent); }
 .nav-links a:hover::after { transform: scaleX(1); }
+.nav-links a.active { color: var(--accent); }
+.nav-links a.active::after { transform: scaleX(1); }
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -865,7 +867,7 @@ nav.scrolled {
 .project-number {
   font-family: var(--font-display);
   font-size: 3.5rem;
-  color: var(--text-dim);
+  color: var(--accent);
   line-height: 1;
   font-weight: 400;
   position: relative;

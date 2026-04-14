@@ -81,10 +81,7 @@
         <a href="#portfolio" class="btn-primary">View My Work</a>
         <a href="#contact" class="btn-outline">Let's Talk</a>
       </div>
-      <div class="hero-scroll reveal">
-        <div class="scroll-line"></div>
-        <span>Scroll</span>
-      </div>
+
     </div>
   </section>
 
@@ -100,7 +97,6 @@
           <div class="about-image-frame">
             <div class="about-image-placeholder">
               <!-- Replace this div with an <img> tag when you have a photo -->
-              <span>Your Photo</span>
             </div>
             <div class="about-image-border"></div>
             <div class="about-stat-badge">
@@ -680,8 +676,8 @@
       const host = document.getElementById('ambientDots');
       if (!host) return;
 
-      const palette = ['#0D7A6F', '#C9A84C', '#B7C8C2', '#6BA79E'];
-      const dotCount = window.matchMedia('(max-width: 768px)').matches ? 34 : 68;
+      const palette = ['#0D7A6F'];
+      const dotCount = window.matchMedia('(max-width: 768px)').matches ? 50 : 100;
 
       function syncDotFieldHeight() {
         host.style.height = Math.max(
@@ -857,9 +853,11 @@
     const cursor = document.getElementById('cursor');
     const follower = document.getElementById('cursorFollower');
     let mx = 0, my = 0, fx = 0, fy = 0;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.transform = `translate(${mx}px,${my}px)`; });
-    function followCursor() { fx += (mx - fx) * 0.12; fy += (my - fy) * 0.12; follower.style.transform = `translate(${fx}px,${fy}px)`; requestAnimationFrame(followCursor); }
-    followCursor();
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.transform = `translate(${mx}px,${my}px)`;
+      follower.style.transform = `translate(${mx}px,${my}px)`;
+    });
     document.querySelectorAll('a, button').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
@@ -873,7 +871,24 @@
         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
-
+    // ── ACTIVE NAV LINK ON SCROLL ─────────────────────────
+    (function() {
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('.nav-links a');
+      function setActiveLink() {
+        let current = '';
+        sections.forEach(section => {
+          const top = section.offsetTop - 120;
+          if (window.scrollY >= top) current = section.getAttribute('id');
+        });
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+        });
+      }
+      window.addEventListener('scroll', setActiveLink, { passive: true });
+      setActiveLink();
+    })();
     // ── FORM SUBMIT (placeholder) ─────────────────────────
     function handleSubmit(e) {
       e.preventDefault();
