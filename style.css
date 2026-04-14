@@ -43,8 +43,11 @@ body {
 
 /* ── AMBIENT DOT FIELD ───────────────────────────────── */
 .ambient-dots {
-  position: fixed;
-  inset: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
@@ -60,9 +63,9 @@ body {
   width: var(--dot-size, 8px);
   height: var(--dot-size, 8px);
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), var(--dot-color, var(--accent)) 52%, rgba(13,122,111,0) 76%);
+  background: var(--dot-color, var(--accent));
   opacity: 0;
-  filter: blur(0.4px);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 0 12px rgba(13,122,111,0.12);
   animation: ambientDrift var(--dot-duration, 16s) ease-in-out var(--dot-delay, 0s) infinite,
              ambientBreathe calc(var(--dot-duration, 16s) * 0.65) ease-in-out var(--dot-delay, 0s) infinite;
 }

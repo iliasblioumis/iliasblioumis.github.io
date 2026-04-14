@@ -681,20 +681,27 @@
       if (!host) return;
 
       const palette = ['#0D7A6F', '#C9A84C', '#B7C8C2', '#6BA79E'];
-      const dotCount = window.matchMedia('(max-width: 768px)').matches ? 18 : 30;
+      const dotCount = window.matchMedia('(max-width: 768px)').matches ? 34 : 68;
+
+      function syncDotFieldHeight() {
+        host.style.height = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ) + 'px';
+      }
 
       function randomBetween(min, max) {
         return Math.random() * (max - min) + min;
       }
 
       function configureDot(dot, seedDelay = false) {
-        const size = randomBetween(4, 12).toFixed(2) + 'px';
+        const size = randomBetween(5, 12.5).toFixed(2) + 'px';
         const x = randomBetween(0, 100).toFixed(2) + '%';
         const y = randomBetween(0, 100).toFixed(2) + '%';
         const driftX = randomBetween(-140, 140).toFixed(1) + 'px';
         const driftY = randomBetween(-120, 120).toFixed(1) + 'px';
         const duration = randomBetween(13, 24).toFixed(2) + 's';
-        const opacity = randomBetween(0.16, 0.44).toFixed(2);
+        const opacity = randomBetween(0.28, 0.62).toFixed(2);
         const color = palette[Math.floor(Math.random() * palette.length)];
 
         dot.style.setProperty('--dot-size', size);
@@ -710,6 +717,10 @@
           dot.style.setProperty('--dot-delay', (-Math.random() * 24).toFixed(2) + 's');
         }
       }
+
+      syncDotFieldHeight();
+      window.addEventListener('resize', syncDotFieldHeight);
+      window.addEventListener('load', syncDotFieldHeight);
 
       for (let i = 0; i < dotCount; i++) {
         const dot = document.createElement('span');
