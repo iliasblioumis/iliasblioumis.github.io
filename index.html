@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.css">
   <meta name="description" content="Ilias Blioumis — BI Developer & Data Analyst. Tableau, Power BI, SQL, and Databricks expert based in Brussels." />
 </head>
 <body>
@@ -20,6 +21,17 @@
 
   <!-- FILM GRAIN OVERLAY -->
   <div class="grain" aria-hidden="true"></div>
+
+  <!-- SECTION INDICATOR (right edge) -->
+  <nav class="section-indicator" id="sectionIndicator" aria-label="Section navigation">
+    <a href="#home" class="si-dot" data-label="Home"><span></span></a>
+    <a href="#about" class="si-dot" data-label="About"><span></span></a>
+    <a href="#skills" class="si-dot" data-label="Skills"><span></span></a>
+    <a href="#tableau" class="si-dot" data-label="Tableau"><span></span></a>
+    <a href="#certifications" class="si-dot" data-label="Certifications"><span></span></a>
+    <a href="#portfolio" class="si-dot" data-label="Portfolio"><span></span></a>
+    <a href="#contact" class="si-dot" data-label="Contact"><span></span></a>
+  </nav>
 
   <div class="ambient-dots" id="ambientDots" aria-hidden="true"></div>
 
@@ -680,6 +692,9 @@
     </div>
   </footer>
 
+  <!-- Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
   <script>
     // ── AMBIENT DOTS ──────────────────────────────────────
     (function() {
@@ -1099,6 +1114,57 @@
       requestAnimationFrame(() => {
         desc.querySelectorAll('.word').forEach(el => el.classList.add('visible'));
       });
+    })();
+
+    // ── LENIS SMOOTH SCROLL ──────────────────────────────
+    let lenis = null;
+    (function() {
+      if (prefersReduced || typeof Lenis === 'undefined') return;
+      lenis = new Lenis({
+        duration: 1.15,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
+        smoothWheel: true,
+        smoothTouch: false,
+        wheelMultiplier: 1.0,
+      });
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      // Re-route in-page anchor clicks through Lenis for buttery scrolling
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+          const href = a.getAttribute('href');
+          if (!href || href === '#') return;
+          const target = document.querySelector(href);
+          if (!target) return;
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          lenis.scrollTo(target, { offset: -80, duration: 1.4 });
+        }, true); // capture phase to beat the earlier handler
+      });
+    })();
+
+    // ── SECTION INDICATOR (right-edge dots) ──────────────
+    (function() {
+      const dots = document.querySelectorAll('.si-dot');
+      if (!dots.length) return;
+      const sections = Array.from(dots)
+        .map(d => document.querySelector(d.getAttribute('href')))
+        .filter(Boolean);
+
+      function setActive() {
+        const y = window.scrollY + window.innerHeight * 0.35;
+        let activeIdx = 0;
+        sections.forEach((sec, i) => {
+          if (sec.offsetTop <= y) activeIdx = i;
+        });
+        dots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
+      }
+      window.addEventListener('scroll', setActive, { passive: true });
+      setActive();
     })();
   </script>
 
