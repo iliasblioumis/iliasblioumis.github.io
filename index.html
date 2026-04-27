@@ -729,8 +729,6 @@
       const MOUSE_PUSH   = 32;
 
       const mouse = { x: -9999, y: -9999, active: false };
-      let scrollOffset = 0;
-      let lastScroll = 0;
 
       function resize() {
         W = window.innerWidth;
@@ -860,15 +858,10 @@
       }, { passive: true });
       window.addEventListener('mouseleave', () => { mouse.active = false; });
 
-      // Subtle scroll parallax — drift the whole field opposite to scroll
-      window.addEventListener('scroll', () => {
-        const y = window.scrollY;
-        const delta = y - lastScroll;
-        lastScroll = y;
-        scrollOffset += delta * 0.04;
-        // Apply as a transform on the canvas wrapper for cheap GPU offset
-        host.style.transform = `translateY(${-scrollOffset * 0.6}px)`;
-      }, { passive: true });
+      // (Scroll parallax removed — translating a position:fixed canvas
+      //  pushed it offscreen as the page scrolled, making the field
+      //  appear only on the landing section. The canvas now stays
+      //  pinned to the viewport across the entire page.)
 
       // If reduced-motion: render once and stop
       resize();
