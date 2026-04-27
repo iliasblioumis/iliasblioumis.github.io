@@ -39,9 +39,7 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  cursor: none;
 }
-*, *::before, *::after { cursor: none !important; }
 
 /* ── AMBIENT DOT FIELD ───────────────────────────────── */
 .ambient-dots {
@@ -91,18 +89,8 @@ a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 
 /* ── CURSOR ───────────────────────────────────────────── */
-.cursor {
-  position: fixed; top: 0; left: 0; z-index: 9999;
-  width: 8px; height: 8px;
-  margin-left: -4px; margin-top: -4px;
-  background: var(--accent);
-  border-radius: 50%;
-  pointer-events: none;
-  will-change: transform;
-  transition: width 0.15s, height 0.15s, margin 0.15s, background 0.15s;
-}
-.cursor.hovered { width: 16px; height: 16px; margin-left: -8px; margin-top: -8px; background: transparent; border: 2px solid var(--accent); }
-
+/* Custom cursor removed in favour of the ambient spotlight (see Premium
+   Animation Layer below). Native cursor is now used. */
 
 /* ── NAV ──────────────────────────────────────────────── */
 nav {
@@ -166,7 +154,7 @@ nav.scrolled {
   gap: 5px;
   background: none;
   border: none;
-  cursor: none;
+  cursor: pointer;
   padding: 4px;
 }
 .nav-toggle span {
@@ -250,7 +238,7 @@ nav.scrolled {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   border: none;
-  cursor: none;
+  cursor: pointer;
   transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 .btn-primary:hover {
@@ -269,7 +257,7 @@ nav.scrolled {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   border: 1px solid var(--border-2);
-  cursor: none;
+  cursor: pointer;
   transition: border-color var(--transition), color var(--transition), transform var(--transition);
 }
 .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
@@ -988,7 +976,6 @@ nav.scrolled {
   resize: vertical;
   transition: border-color var(--transition);
   outline: none;
-  cursor: none;
 }
 .form-group input:focus,
 .form-group textarea:focus { border-color: var(--accent); }
@@ -1146,6 +1133,16 @@ nav.scrolled {
   letter-spacing: -0.02em;
 }
 
+/* ── WORD-BY-WORD FADE (hero desc) ───────────────────── */
+.word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: calc(var(--word-i, 0) * 45ms + 800ms);
+}
+.word.visible { opacity: 1; transform: translateY(0); }
+
 /* ═══════════════════════════════════════════════════════ */
 
 /* ── RESPONSIVE ───────────────────────────────────────── */
@@ -1173,7 +1170,7 @@ nav.scrolled {
   .about-info-grid { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; text-align: center; }
   body, body *, body *::before, body *::after { cursor: auto !important; }
-  .cursor, .cursor-follower { display: none; }
+  .spotlight { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1183,6 +1180,8 @@ nav.scrolled {
   .marquee-track, .marquee-item { animation: none !important; }
   .badge-svg { transform: none !important; }
   .tilt-inner { transform: none !important; }
+  .grain { animation: none; }
+  .spotlight { display: none; }
 }
 
 @media (max-width: 480px) {

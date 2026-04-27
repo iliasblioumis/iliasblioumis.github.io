@@ -15,9 +15,11 @@
   <!-- SCROLL PROGRESS BAR -->
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-  <!-- CUSTOM CURSOR -->
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-follower" id="cursorFollower" aria-hidden="true"></div>
+  <!-- AMBIENT SPOTLIGHT (follows cursor) -->
+  <div class="spotlight" id="spotlight" aria-hidden="true"></div>
+
+  <!-- FILM GRAIN OVERLAY -->
+  <div class="grain" aria-hidden="true"></div>
 
   <div class="ambient-dots" id="ambientDots" aria-hidden="true"></div>
 
@@ -841,8 +843,7 @@
     });
 
     // ── CUSTOM CURSOR ─────────────────────────────────────
-    // (Cursor movement & hover handled by the lerped cursor block in the
-    //  PREMIUM ANIMATION LAYER below.)
+    // Removed in favour of the ambient spotlight below.
 
     // ── SMOOTH SCROLL ─────────────────────────────────────
     document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -898,34 +899,41 @@
     })();
 
     // ── SMOOTH LERPED CURSOR + FOLLOWER ──────────────────
+    // Replaced by ambient spotlight (see below).
+    (function() {
+      const old1 = document.getElementById('cursor');
+      const old2 = document.getElementById('cursorFollower');
+      if (old1) old1.remove();
+      if (old2) old2.remove();
+    })();
+
+    // ── AMBIENT SPOTLIGHT (cursor-tracking glow) ─────────
     (function() {
       if (isCoarse) return;
-      const dot = document.getElementById('cursor');
-      const ring = document.getElementById('cursorFollower');
-      if (!dot || !ring) return;
+      const spot = document.getElementById('spotlight');
+      if (!spot) return;
 
-      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
-      let dx = mx, dy = my, rx = mx, ry = my;
+      let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+      let cx = tx, cy = ty;
+      let active = false;
 
-      document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+      document.addEventListener('mousemove', e => {
+        tx = e.clientX; ty = e.clientY;
+        if (!active) { spot.classList.add('active'); active = true; }
+      }, { passive: true });
+
+      document.addEventListener('mouseleave', () => {
+        spot.classList.remove('active');
+        active = false;
+      });
 
       function loop() {
-        // Dot — fast follow
-        dx += (mx - dx) * 0.55;
-        dy += (my - dy) * 0.55;
-        // Ring — lagging follow for premium feel
-        rx += (mx - rx) * 0.18;
-        ry += (my - ry) * 0.18;
-        dot.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
-        ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+        cx += (tx - cx) * 0.12;
+        cy += (ty - cy) * 0.12;
+        spot.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, -50%)`;
         requestAnimationFrame(loop);
       }
       requestAnimationFrame(loop);
-
-      document.querySelectorAll('a, button, input, textarea, .tilt').forEach(el => {
-        el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
-        el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
-      });
     })();
 
     // ── STAGGERED REVEALS FOR GRID CHILDREN ──────────────
@@ -1058,12 +1066,11 @@
       });
     })();
 
-    // ── HERO PARALLAX ────────────────────────────────────
+    // ── HERO PARALLAX (glow only — name parallax removed to avoid overlap) ──
     (function() {
       if (prefersReduced) return;
-      const name = document.querySelector('.hero-name');
       const glow = document.querySelector('.hero-glow');
-      if (!name && !glow) return;
+      if (!glow) return;
       let ticking = false;
       window.addEventListener('scroll', () => {
         if (ticking) return;
@@ -1071,12 +1078,27 @@
         requestAnimationFrame(() => {
           const y = window.scrollY;
           if (y < window.innerHeight) {
-            if (name) name.style.transform = `translateY(${y * 0.18}px)`;
-            if (glow) glow.style.transform = `translateY(calc(-50% + ${y * 0.25}px))`;
+            glow.style.transform = `translateY(calc(-50% + ${y * 0.25}px))`;
           }
           ticking = false;
         });
       }, { passive: true });
+    })();
+
+    // ── HERO DESCRIPTION WORD-BY-WORD FADE ───────────────
+    (function() {
+      if (prefersReduced) return;
+      const desc = document.querySelector('.hero-desc');
+      if (!desc) return;
+      const text = desc.textContent.trim();
+      const words = text.split(/\s+/);
+      desc.innerHTML = words
+        .map((w, i) => `<span class="word" style="--word-i:${i}">${w}</span>`)
+        .join(' ');
+      // Trigger on next frame so transitions apply
+      requestAnimationFrame(() => {
+        desc.querySelectorAll('.word').forEach(el => el.classList.add('visible'));
+      });
     })();
   </script>
 
