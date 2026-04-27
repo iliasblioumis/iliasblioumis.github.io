@@ -43,16 +43,20 @@ body {
   overflow-x: hidden;
 }
 
-/* ── AMBIENT DOT FIELD ───────────────────────────────── */
+/* ── AMBIENT DOT FIELD (canvas constellation) ────────── */
 .ambient-dots {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
 }
+#ambientCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Legacy DOM-dot styles kept for backwards-compat / reduced-motion fallback */
 .ambient-dot {
   position: absolute;
   left: var(--dot-x, 50%);
