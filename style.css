@@ -394,9 +394,14 @@ nav.scrolled {
   gap: 5rem;
   align-items: start;
 }
+.about-image-col {
+  min-width: 0;
+}
 .about-image-frame {
   position: relative;
-  display: inline-block;
+  display: block;
+  width: 100%;
+  max-width: 360px;
 }
 .about-image-placeholder {
   width: 100%;
@@ -540,22 +545,26 @@ nav.scrolled {
   padding-left: 0.4rem;
 }
 .skill-text-item:hover::before { transform: scale(1.4); }
-/* ── MARQUEE ICON CHAIN ───────────────────────────────── */
+/* ── MARQUEE TECH STACK STRIP ─────────────────────────── */
 .marquee-wrapper {
-  margin-top: 3rem;
+  margin-top: 3.5rem;
   overflow: hidden;
   width: 100%;
-  padding: 28px 0;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
 }
 .marquee-track {
   display: flex;
-  align-items: flex-end;
-  gap: 1.5rem;
+  align-items: center;
+  gap: 0;
   width: max-content;
-  animation: marqueeScroll 70s linear infinite;
+  animation: marqueeScroll 60s linear infinite;
 }
+.marquee-wrapper:hover .marquee-track { animation-play-state: paused; }
 @keyframes marqueeScroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -564,41 +573,46 @@ nav.scrolled {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.7rem;
   flex-shrink: 0;
   cursor: default;
-  animation: itemBob 3s ease-in-out infinite;
+  padding: 0.85rem 1.6rem;
+  position: relative;
+  transition: background var(--transition);
 }
-@keyframes itemBob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
+.marquee-item::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 1px;
+  background: var(--border);
 }
-.marquee-item:nth-child(13n+1)  { animation-delay: 0s; }
-.marquee-item:nth-child(13n+2)  { animation-delay: 0.23s; }
-.marquee-item:nth-child(13n+3)  { animation-delay: 0.46s; }
-.marquee-item:nth-child(13n+4)  { animation-delay: 0.69s; }
-.marquee-item:nth-child(13n+5)  { animation-delay: 0.92s; }
-.marquee-item:nth-child(13n+6)  { animation-delay: 1.15s; }
-.marquee-item:nth-child(13n+7)  { animation-delay: 1.38s; }
-.marquee-item:nth-child(13n+8)  { animation-delay: 1.62s; }
-.marquee-item:nth-child(13n+9)  { animation-delay: 1.85s; }
-.marquee-item:nth-child(13n+10) { animation-delay: 2.08s; }
-.marquee-item:nth-child(13n+11) { animation-delay: 2.31s; }
-.marquee-item:nth-child(13n+12) { animation-delay: 2.54s; }
-.marquee-item:nth-child(13n+13) { animation-delay: 2.77s; }
+.marquee-item::before {
+  content: attr(title);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  order: 2;
+  transition: color var(--transition);
+  white-space: nowrap;
+}
+.marquee-item:hover { background: var(--accent-dim); }
+.marquee-item:hover::before { color: var(--accent); }
 .marquee-item svg {
-  width: 68px;
-  height: 68px;
-  background: #EFEFED;
-  border-radius: 50%;
-  padding: 17px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  width: 28px;
+  height: 28px;
   flex-shrink: 0;
   display: block;
-  transition: background 0.2s, box-shadow 0.2s;
+  filter: grayscale(100%) opacity(0.65);
+  transition: filter var(--transition), transform var(--transition);
 }
 .marquee-item:hover svg {
-  background: #E2E0DC;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.08);
 }
 
 /* ── TABLEAU ──────────────────────────────────────────── */
