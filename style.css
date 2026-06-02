@@ -21,6 +21,8 @@
   --font-body:   'Plus Jakarta Sans', sans-serif;
   --radius:      4px;
   --transition:  0.3s cubic-bezier(0.4,0,0.2,1);
+  /* Strong ease-out — more punch than the built-in curves for entrances + feedback */
+  --ease-out:    cubic-bezier(0.23,1,0.32,1);
 }
 
 /* ── RESET & BASE ─────────────────────────────────────── */
@@ -94,9 +96,14 @@ body {
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 
-/* ── CURSOR ───────────────────────────────────────────── */
-/* Custom cursor removed in favour of the ambient spotlight (see Premium
-   Animation Layer below). Native cursor is now used. */
+/* ── FOCUS VISIBLE (keyboard users) ───────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+/* Mouse clicks shouldn't paint the ring */
+:focus:not(:focus-visible) { outline: none; }
 
 /* ── NAV ──────────────────────────────────────────────── */
 nav {
@@ -228,7 +235,7 @@ nav.scrolled {
 .reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
@@ -252,6 +259,7 @@ nav.scrolled {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px var(--accent-glow);
 }
+.btn-primary:active { transform: scale(0.97); }
 .btn-outline {
   display: inline-block;
   padding: 0.85rem 2rem;
@@ -267,6 +275,7 @@ nav.scrolled {
   transition: border-color var(--transition), color var(--transition), transform var(--transition);
 }
 .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+.btn-outline:active { transform: scale(0.97); }
 .btn-full { width: 100%; text-align: center; }
 
 /* ── HERO ─────────────────────────────────────────────── */
@@ -665,6 +674,7 @@ nav.scrolled {
   transition: background var(--transition), transform var(--transition);
 }
 .tableau-link-btn:hover { background: var(--accent); color: #000; transform: translateY(-1px); }
+.tableau-link-btn:active { transform: scale(0.95); }
 /* ── TABLEAU GIF CARDS ────────────────────────────────── */
 .tableau-gif-wrapper {
   position: relative;
@@ -812,10 +822,11 @@ nav.scrolled {
   color: var(--text-muted);
   border: 1px solid var(--border-2);
   padding: 0.55rem 1rem;
-  transition: color var(--transition), border-color var(--transition), background var(--transition);
+  transition: color var(--transition), border-color var(--transition), background var(--transition), transform 0.16s var(--ease-out);
   align-self: flex-start;
 }
 .cert-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+.cert-btn:active { transform: scale(0.97); }
 
 /* ── PORTFOLIO ────────────────────────────────────────── */
 .portfolio-section { background: transparent; }
@@ -1053,32 +1064,13 @@ nav.scrolled {
   transition: width 0.08s linear;
 }
 
-/* ── CURSOR FOLLOWER (outer ring) ────────────────────── */
-.cursor-follower {
-  position: fixed; top: 0; left: 0; z-index: 9998;
-  width: 36px; height: 36px;
-  margin-left: -18px; margin-top: -18px;
-  border: 1px solid var(--accent);
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0.5;
-  will-change: transform;
-  transition: width 0.25s, height 0.25s, margin 0.25s, opacity 0.25s, border-color 0.25s, background 0.25s;
-}
-.cursor-follower.hovered {
-  width: 56px; height: 56px;
-  margin-left: -28px; margin-top: -28px;
-  background: var(--accent-dim);
-  opacity: 0.9;
-}
-
 /* ── STAGGERED REVEALS ───────────────────────────────── */
 .reveal-stagger {
   opacity: 0;
   transform: translateY(28px);
   transition:
-    opacity 0.7s cubic-bezier(0.4,0,0.2,1) calc(var(--stagger-i, 0) * 90ms),
-    transform 0.7s cubic-bezier(0.4,0,0.2,1) calc(var(--stagger-i, 0) * 90ms);
+    opacity 0.6s var(--ease-out) calc(var(--stagger-i, 0) * 60ms),
+    transform 0.6s var(--ease-out) calc(var(--stagger-i, 0) * 60ms);
   will-change: opacity, transform;
 }
 .reveal-stagger.visible { opacity: 1; transform: translateY(0); }
@@ -1258,19 +1250,26 @@ html.lenis, html.lenis body { height: auto; }
   .about-info-grid { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; text-align: center; }
   body, body *, body *::before, body *::after { cursor: auto !important; }
-  .spotlight { display: none; }
   .section-indicator { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ambient-dot { animation: none; opacity: 0.16; }
-  .reveal { opacity: 1; transform: none; transition: none; }
+  /* Reduced motion = gentler, not zero. Keep a soft fade, drop the movement. */
+  .reveal, .reveal-stagger { transform: none !important; transition: opacity 0.4s ease !important; }
   .split-line-inner { transform: none !important; transition: none !important; }
+  .word { transform: none !important; }
   .marquee-track, .marquee-item { animation: none !important; }
   .badge-svg { transform: none !important; }
   .tilt-inner { transform: none !important; }
-  .grain { animation: none; }
-  .spotlight { display: none; }
+}
+
+/* On touch devices :hover sticks after a tap — neutralise the lift so
+   cards don't stay raised once tapped. */
+@media (hover: none) {
+  .tableau-card:hover,
+  .cert-card:hover,
+  .project-card:hover { transform: none; }
 }
 
 @media (max-width: 480px) {
