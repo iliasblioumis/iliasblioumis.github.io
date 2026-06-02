@@ -96,6 +96,15 @@ body {
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 
+/* ── FOCUS VISIBLE (keyboard users) ───────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+/* Mouse clicks shouldn't paint the ring */
+:focus:not(:focus-visible) { outline: none; }
+
 /* ── NAV ──────────────────────────────────────────────── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
@@ -1246,11 +1255,21 @@ html.lenis, html.lenis body { height: auto; }
 
 @media (prefers-reduced-motion: reduce) {
   .ambient-dot { animation: none; opacity: 0.16; }
-  .reveal { opacity: 1; transform: none; transition: none; }
+  /* Reduced motion = gentler, not zero. Keep a soft fade, drop the movement. */
+  .reveal, .reveal-stagger { transform: none !important; transition: opacity 0.4s ease !important; }
   .split-line-inner { transform: none !important; transition: none !important; }
+  .word { transform: none !important; }
   .marquee-track, .marquee-item { animation: none !important; }
   .badge-svg { transform: none !important; }
   .tilt-inner { transform: none !important; }
+}
+
+/* On touch devices :hover sticks after a tap — neutralise the lift so
+   cards don't stay raised once tapped. */
+@media (hover: none) {
+  .tableau-card:hover,
+  .cert-card:hover,
+  .project-card:hover { transform: none; }
 }
 
 @media (max-width: 480px) {
