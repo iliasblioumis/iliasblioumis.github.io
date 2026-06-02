@@ -1106,13 +1106,27 @@
       if (prefersReduced || isCoarse) return;
       const strength = 0.35;
       document.querySelectorAll('.magnetic').forEach(btn => {
+        let curX = 0, curY = 0, pressed = false;
+        // Compose the magnetic offset with a press-scale so :active feedback
+        // survives the inline transform (which would otherwise win over CSS).
+        const apply = () => {
+          btn.style.transform =
+            `translate(${curX}px, ${curY}px) scale(${pressed ? 0.97 : 1})`;
+        };
         btn.addEventListener('mousemove', e => {
           const r = btn.getBoundingClientRect();
-          const x = e.clientX - (r.left + r.width / 2);
-          const y = e.clientY - (r.top + r.height / 2);
-          btn.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
+          curX = (e.clientX - (r.left + r.width / 2)) * strength;
+          curY = (e.clientY - (r.top + r.height / 2)) * strength;
+          apply();
+        });
+        btn.addEventListener('mousedown', () => { pressed = true; apply(); });
+        window.addEventListener('mouseup', () => {
+          if (!pressed) return;
+          pressed = false;
+          apply();
         });
         btn.addEventListener('mouseleave', () => {
+          curX = 0; curY = 0; pressed = false;
           btn.style.transform = '';
         });
       });

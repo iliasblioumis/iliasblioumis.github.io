@@ -21,6 +21,8 @@
   --font-body:   'Plus Jakarta Sans', sans-serif;
   --radius:      4px;
   --transition:  0.3s cubic-bezier(0.4,0,0.2,1);
+  /* Strong ease-out — more punch than the built-in curves for entrances + feedback */
+  --ease-out:    cubic-bezier(0.23,1,0.32,1);
 }
 
 /* ── RESET & BASE ─────────────────────────────────────── */
@@ -224,7 +226,7 @@ nav.scrolled {
 .reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
@@ -248,6 +250,7 @@ nav.scrolled {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px var(--accent-glow);
 }
+.btn-primary:active { transform: scale(0.97); }
 .btn-outline {
   display: inline-block;
   padding: 0.85rem 2rem;
@@ -263,6 +266,7 @@ nav.scrolled {
   transition: border-color var(--transition), color var(--transition), transform var(--transition);
 }
 .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+.btn-outline:active { transform: scale(0.97); }
 .btn-full { width: 100%; text-align: center; }
 
 /* ── HERO ─────────────────────────────────────────────── */
@@ -661,6 +665,7 @@ nav.scrolled {
   transition: background var(--transition), transform var(--transition);
 }
 .tableau-link-btn:hover { background: var(--accent); color: #000; transform: translateY(-1px); }
+.tableau-link-btn:active { transform: scale(0.95); }
 /* ── TABLEAU GIF CARDS ────────────────────────────────── */
 .tableau-gif-wrapper {
   position: relative;
@@ -808,10 +813,11 @@ nav.scrolled {
   color: var(--text-muted);
   border: 1px solid var(--border-2);
   padding: 0.55rem 1rem;
-  transition: color var(--transition), border-color var(--transition), background var(--transition);
+  transition: color var(--transition), border-color var(--transition), background var(--transition), transform 0.16s var(--ease-out);
   align-self: flex-start;
 }
 .cert-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+.cert-btn:active { transform: scale(0.97); }
 
 /* ── PORTFOLIO ────────────────────────────────────────── */
 .portfolio-section { background: transparent; }
@@ -1054,8 +1060,8 @@ nav.scrolled {
   opacity: 0;
   transform: translateY(28px);
   transition:
-    opacity 0.7s cubic-bezier(0.4,0,0.2,1) calc(var(--stagger-i, 0) * 90ms),
-    transform 0.7s cubic-bezier(0.4,0,0.2,1) calc(var(--stagger-i, 0) * 90ms);
+    opacity 0.6s var(--ease-out) calc(var(--stagger-i, 0) * 60ms),
+    transform 0.6s var(--ease-out) calc(var(--stagger-i, 0) * 60ms);
   will-change: opacity, transform;
 }
 .reveal-stagger.visible { opacity: 1; transform: translateY(0); }
