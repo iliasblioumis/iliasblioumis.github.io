@@ -1276,3 +1276,59 @@ html.lenis, html.lenis body { height: auto; }
   .hero-name { font-size: 3rem; }
   .project-card { padding: 1.75rem; }
 }
+
+/* ── DIRECTIONAL REVEALS ─────────────────────────────── */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-left, .reveal-right { transform: none !important; transition: opacity 0.4s ease !important; }
+}
+
+/* ── HERO GLOW MOUSE TRACKING ────────────────────────── */
+.hero-glow {
+  transition: left 1s cubic-bezier(0.22, 1, 0.36, 1), top 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── CUSTOM CURSOR ───────────────────────────────────── */
+body.custom-cursor,
+body.custom-cursor a,
+body.custom-cursor button,
+body.custom-cursor [class*="btn"],
+body.custom-cursor .cert-card,
+body.custom-cursor .project-card,
+body.custom-cursor .tableau-card,
+body.custom-cursor .contact-item,
+body.custom-cursor .marquee-item,
+body.custom-cursor .skill-text-item,
+body.custom-cursor .si-dot,
+body.custom-cursor .nav-links a { cursor: none !important; }
+
+body.custom-cursor input,
+body.custom-cursor textarea { cursor: text !important; }
+
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  will-change: transform;
+  mix-blend-mode: multiply;
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.3s ease;
+}
+.cursor-dot.is-hovering { width: 14px; height: 14px; }
+.cursor-dot.is-hidden { opacity: 0 !important; }

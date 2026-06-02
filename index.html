@@ -115,7 +115,7 @@
         </div>
       </div>
       <div class="about-grid">
-        <div class="about-image-col reveal">
+        <div class="about-image-col reveal-left">
           <div class="about-image-frame">
             <div class="about-image-placeholder">
               <!-- Replace this div with an <img> tag when you have a photo -->
@@ -123,7 +123,7 @@
             <div class="about-image-border"></div>
           </div>
         </div>
-        <div class="about-text-col reveal">
+        <div class="about-text-col reveal-right">
           <h3 class="about-headline">BI Developer & <br><em>Data Analyst</em></h3>
           <p class="about-body">
             I'm a Business Intelligence Developer passionate about bridging the gap between
@@ -613,7 +613,7 @@
         <h2 class="section-title">Get In <em>Touch</em></h2>
       </div>
       <div class="contact-grid">
-        <div class="contact-left reveal">
+        <div class="contact-left reveal-left">
           <p class="contact-lead">
             Have a project in mind or want to connect? I'm always open to
             discussing new opportunities and interesting data challenges.
@@ -657,7 +657,7 @@
             </a>
           </div>
         </div>
-        <div class="contact-right reveal">
+        <div class="contact-right reveal-right">
           <form class="contact-form" onsubmit="handleSubmit(event)">
             <div class="form-group">
               <label for="name">Your Name</label>
@@ -899,7 +899,7 @@
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
     }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
 
 
     // ── BADGE RING: scroll-driven → auto after 3s idle ────
@@ -1253,6 +1253,106 @@
       }
       window.addEventListener('scroll', setActive, { passive: true });
       setActive();
+    })();
+    // ── HERO GLOW MOUSE TRACKING ──────────────────────────
+    (function() {
+      if (prefersReduced || isCoarse) return;
+      const hero = document.querySelector('.hero');
+      const glow = document.querySelector('.hero-glow');
+      if (!hero || !glow) return;
+      let inHero = false;
+      hero.addEventListener('mouseenter', () => { inHero = true; });
+      hero.addEventListener('mouseleave', () => {
+        inHero = false;
+        glow.style.left = '-100px';
+        glow.style.top = '50%';
+        glow.style.transform = 'translateY(-50%)';
+      });
+      hero.addEventListener('mousemove', e => {
+        if (!inHero) return;
+        const rect = hero.getBoundingClientRect();
+        glow.style.left = (e.clientX - rect.left - 300) + 'px';
+        glow.style.top  = (e.clientY - rect.top  - 300) + 'px';
+        glow.style.transform = '';
+      });
+    })();
+
+    // ── SKILLS ITEMS STAGGER ──────────────────────────────
+    (function() {
+      if (prefersReduced) return;
+      document.querySelectorAll('.skills-col').forEach(col => {
+        const items = Array.from(col.querySelectorAll('.skill-text-item'));
+        items.forEach(item => { item.style.opacity = '0'; item.style.transform = 'translateX(-14px)'; });
+        const colIdx = Array.from(col.parentElement.children).indexOf(col);
+        const io = new IntersectionObserver(([entry]) => {
+          if (!entry.isIntersecting) return;
+          const base = colIdx * 60 + 150;
+          items.forEach((item, i) => {
+            setTimeout(() => {
+              item.style.transition = 'opacity 0.5s ease, transform 0.5s var(--ease-out), color var(--transition), padding-left var(--transition)';
+              item.style.opacity = '1';
+              item.style.transform = 'translateX(0)';
+            }, base + i * 55);
+          });
+          io.unobserve(col);
+        }, { threshold: 0.15 });
+        io.observe(col);
+      });
+    })();
+
+    // ── PROJECT NUMBER COUNT-UP ───────────────────────────
+    (function() {
+      const nums = document.querySelectorAll('.project-number');
+      if (!nums.length) return;
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const el = e.target;
+          const target = parseInt(el.textContent, 10);
+          const duration = 700;
+          const start = performance.now();
+          (function tick(now) {
+            const t = Math.min(1, (now - start) / duration);
+            const eased = 1 - Math.pow(1 - t, 3);
+            el.textContent = String(Math.round(target * eased)).padStart(2, '0');
+            if (t < 1) requestAnimationFrame(tick);
+          })(start);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.5 });
+      nums.forEach(el => io.observe(el));
+    })();
+
+    // ── CUSTOM CURSOR ─────────────────────────────────────
+    (function() {
+      if (prefersReduced || isCoarse) return;
+      const dot = document.createElement('div');
+      dot.className = 'cursor-dot is-hidden';
+      document.body.appendChild(dot);
+      document.body.classList.add('custom-cursor');
+
+      let mx = 0, my = 0, first = true;
+
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        if (first) { first = false; dot.classList.remove('is-hidden'); }
+      }, { passive: true });
+      document.addEventListener('mouseleave', () => { dot.classList.add('is-hidden'); });
+      document.addEventListener('mouseenter', () => { if (!first) dot.classList.remove('is-hidden'); });
+
+      (function tick() {
+        dot.style.transform = `translate3d(${mx}px,${my}px,0) translate(-50%,-50%)`;
+        requestAnimationFrame(tick);
+      })();
+
+      const hoverSel = 'a, button, .cert-card, .project-card, .tableau-card, .contact-item, .marquee-item, .skill-text-item, .si-dot';
+      document.querySelectorAll(hoverSel).forEach(el => {
+        el.addEventListener('mouseenter', () => { dot.classList.add('is-hovering'); });
+        el.addEventListener('mouseleave', () => { dot.classList.remove('is-hovering'); });
+      });
+
+      document.addEventListener('mousedown', () => { dot.style.transform += ' scale(0.7)'; });
+      document.addEventListener('mouseup',   () => { /* scale clears on next tick */ });
     })();
   </script>
 
