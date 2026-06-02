@@ -19,12 +19,6 @@
   <!-- SCROLL PROGRESS BAR -->
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-  <!-- AMBIENT SPOTLIGHT (follows cursor) -->
-  <div class="spotlight" id="spotlight" aria-hidden="true"></div>
-
-  <!-- FILM GRAIN OVERLAY -->
-  <div class="grain" aria-hidden="true"></div>
-
   <!-- SECTION INDICATOR (right edge) -->
   <nav class="section-indicator" id="sectionIndicator" aria-label="Section navigation">
     <a href="#home" class="si-dot" data-label="Home"><span></span></a>
@@ -978,9 +972,6 @@
       link.addEventListener('click', () => { menu.classList.remove('open'); toggle.classList.remove('active'); });
     });
 
-    // ── CUSTOM CURSOR ─────────────────────────────────────
-    // Removed in favour of the ambient spotlight below.
-
     // ── SMOOTH SCROLL ─────────────────────────────────────
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
@@ -1032,44 +1023,6 @@
       window.addEventListener('scroll', update, { passive: true });
       window.addEventListener('resize', update);
       update();
-    })();
-
-    // ── SMOOTH LERPED CURSOR + FOLLOWER ──────────────────
-    // Replaced by ambient spotlight (see below).
-    (function() {
-      const old1 = document.getElementById('cursor');
-      const old2 = document.getElementById('cursorFollower');
-      if (old1) old1.remove();
-      if (old2) old2.remove();
-    })();
-
-    // ── AMBIENT SPOTLIGHT (cursor-tracking glow) ─────────
-    (function() {
-      if (isCoarse) return;
-      const spot = document.getElementById('spotlight');
-      if (!spot) return;
-
-      let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
-      let cx = tx, cy = ty;
-      let active = false;
-
-      document.addEventListener('mousemove', e => {
-        tx = e.clientX; ty = e.clientY;
-        if (!active) { spot.classList.add('active'); active = true; }
-      }, { passive: true });
-
-      document.addEventListener('mouseleave', () => {
-        spot.classList.remove('active');
-        active = false;
-      });
-
-      function loop() {
-        cx += (tx - cx) * 0.12;
-        cy += (ty - cy) * 0.12;
-        spot.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, -50%)`;
-        requestAnimationFrame(loop);
-      }
-      requestAnimationFrame(loop);
     })();
 
     // ── STAGGERED REVEALS FOR GRID CHILDREN ──────────────
