@@ -1189,19 +1189,30 @@
     })();
 
     // ── HERO DESCRIPTION WORD-BY-WORD FADE ───────────────
+    // Plays once per session — skips on repeat visits so it
+    // doesn't slow users who already know the content.
     (function() {
       if (prefersReduced) return;
       const desc = document.querySelector('.hero-desc');
       if (!desc) return;
       const text = desc.textContent.trim();
       const words = text.split(/\s+/);
+      const seen = sessionStorage.getItem('hero-desc-seen');
       desc.innerHTML = words
         .map((w, i) => `<span class="word" style="--word-i:${i}">${w}</span>`)
         .join(' ');
-      // Trigger on next frame so transitions apply
-      requestAnimationFrame(() => {
-        desc.querySelectorAll('.word').forEach(el => el.classList.add('visible'));
-      });
+      if (seen) {
+        // Skip animation — show instantly on repeat visits
+        desc.querySelectorAll('.word').forEach(el => {
+          el.style.transition = 'none';
+          el.classList.add('visible');
+        });
+      } else {
+        sessionStorage.setItem('hero-desc-seen', '1');
+        requestAnimationFrame(() => {
+          desc.querySelectorAll('.word').forEach(el => el.classList.add('visible'));
+        });
+      }
     })();
 
     // ── LENIS SMOOTH SCROLL ──────────────────────────────
@@ -1288,11 +1299,18 @@
           if (!entry.isIntersecting) return;
           const base = colIdx * 60 + 150;
           items.forEach((item, i) => {
+            const delay = base + i * 55;
             setTimeout(() => {
-              item.style.transition = 'opacity 0.5s ease, transform 0.5s var(--ease-out), color var(--transition), padding-left var(--transition)';
+              item.style.transition = 'opacity 0.5s ease, transform 0.5s var(--ease-out)';
               item.style.opacity = '1';
               item.style.transform = 'translateX(0)';
-            }, base + i * 55);
+              // Clear inline styles after animation so CSS hover (translateX) can take over
+              setTimeout(() => {
+                item.style.opacity = '';
+                item.style.transform = '';
+                item.style.transition = '';
+              }, 550);
+            }, delay);
           });
           io.unobserve(col);
         }, { threshold: 0.15 });
@@ -1332,6 +1350,8 @@
       document.body.classList.add('custom-cursor');
 
       let mx = 0, my = 0, first = true;
+      let dotScale = 1, dotScaleTarget = 1;
+      function lerpVal(a, b, t) { return a + (b - a) * t; }
 
       document.addEventListener('mousemove', e => {
         mx = e.clientX; my = e.clientY;
@@ -1341,18 +1361,18 @@
       document.addEventListener('mouseenter', () => { if (!first) dot.classList.remove('is-hidden'); });
 
       (function tick() {
-        dot.style.transform = `translate3d(${mx}px,${my}px,0) translate(-50%,-50%)`;
+        dotScale = lerpVal(dotScale, dotScaleTarget, 0.15);
+        dot.style.transform = `translate3d(${mx}px,${my}px,0) translate(-50%,-50%) scale(${dotScale})`;
         requestAnimationFrame(tick);
       })();
 
       const hoverSel = 'a, button, .cert-card, .project-card, .tableau-card, .contact-item, .marquee-item, .skill-text-item, .si-dot';
       document.querySelectorAll(hoverSel).forEach(el => {
-        el.addEventListener('mouseenter', () => { dot.classList.add('is-hovering'); });
-        el.addEventListener('mouseleave', () => { dot.classList.remove('is-hovering'); });
+        el.addEventListener('mouseenter', () => { dotScaleTarget = 1.75; });
+        el.addEventListener('mouseleave', () => { dotScaleTarget = 1; });
       });
-
-      document.addEventListener('mousedown', () => { dot.style.transform += ' scale(0.7)'; });
-      document.addEventListener('mouseup',   () => { /* scale clears on next tick */ });
+      document.addEventListener('mousedown', () => { dotScaleTarget = 0.7; });
+      document.addEventListener('mouseup',   () => { dotScaleTarget = 1; });
     })();
   </script>
 

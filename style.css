@@ -189,10 +189,11 @@ nav.scrolled {
   align-items: center;
   justify-content: center;
   opacity: 0;
+  transform: translateY(-10px);
   pointer-events: none;
-  transition: opacity 0.4s;
+  transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
 }
-.mobile-menu.open { opacity: 1; pointer-events: all; }
+.mobile-menu.open { opacity: 1; transform: translateY(0); pointer-events: all; }
 .mobile-menu ul { list-style: none; text-align: center; }
 .mobile-menu li { margin: 1.5rem 0; }
 .mobile-menu a {
@@ -235,7 +236,7 @@ nav.scrolled {
 .reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
@@ -256,7 +257,6 @@ nav.scrolled {
 }
 .btn-primary:hover {
   background: #0a6359;
-  transform: translateY(-2px);
   box-shadow: 0 8px 24px var(--accent-glow);
 }
 .btn-primary:active { transform: scale(0.97); }
@@ -274,7 +274,7 @@ nav.scrolled {
   cursor: pointer;
   transition: border-color var(--transition), color var(--transition), transform var(--transition);
 }
-.btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
 .btn-outline:active { transform: scale(0.97); }
 .btn-full { width: 100%; text-align: center; }
 
@@ -539,7 +539,7 @@ nav.scrolled {
   display: flex;
   align-items: center;
   gap: 0.85rem;
-  transition: color var(--transition), padding-left var(--transition);
+  transition: color var(--transition), transform var(--transition);
 }
 .skill-text-item::before {
   content: '';
@@ -549,11 +549,7 @@ nav.scrolled {
   flex-shrink: 0;
   transition: transform var(--transition);
 }
-.skill-text-item:hover {
-  color: var(--accent);
-  padding-left: 0.4rem;
-}
-.skill-text-item:hover::before { transform: scale(1.4); }
+.skill-text-item:hover { color: var(--accent); }
 /* ── MARQUEE TECH STACK STRIP ─────────────────────────── */
 .marquee-wrapper {
   margin-top: 3.5rem;
@@ -573,7 +569,7 @@ nav.scrolled {
   width: max-content;
   animation: marqueeScroll 60s linear infinite;
 }
-.marquee-wrapper:hover .marquee-track { animation-play-state: paused; }
+/* marquee pause on hover moved to (hover:hover) media query */
 @keyframes marqueeScroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -619,10 +615,8 @@ nav.scrolled {
   filter: grayscale(100%) opacity(0.65);
   transition: filter var(--transition), transform var(--transition);
 }
-.marquee-item:hover svg {
-  filter: grayscale(0%) opacity(1);
-  transform: scale(1.08);
-}
+.marquee-item:hover svg { filter: grayscale(0%) opacity(1); }
+/* svg scale moved to (hover:hover) media query */
 
 /* ── TABLEAU ──────────────────────────────────────────── */
 .tableau-section { background: transparent; }
@@ -638,7 +632,7 @@ nav.scrolled {
   overflow: hidden;
   transition: border-color var(--transition), transform var(--transition);
 }
-.tableau-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.tableau-card:hover { border-color: var(--accent); }
 .tableau-card-wide { grid-column: 1 / -1; }
 .tableau-card-header {
   display: flex;
@@ -673,7 +667,7 @@ nav.scrolled {
   flex-shrink: 0;
   transition: background var(--transition), transform var(--transition);
 }
-.tableau-link-btn:hover { background: var(--accent); color: #000; transform: translateY(-1px); }
+.tableau-link-btn:hover { background: var(--accent); color: #000; }
 .tableau-link-btn:active { transform: scale(0.95); }
 /* ── TABLEAU GIF CARDS ────────────────────────────────── */
 .tableau-gif-wrapper {
@@ -693,7 +687,7 @@ nav.scrolled {
   display: block;
   transition: transform 0.5s ease;
 }
-.tableau-gif-wrapper:hover .tableau-gif { transform: scale(1.03); }
+/* .tableau-gif scale + .gif-overlay opacity moved to (hover:hover) media query */
 .gif-overlay {
   position: absolute;
   inset: 0;
@@ -704,7 +698,6 @@ nav.scrolled {
   opacity: 0;
   transition: opacity 0.35s ease;
 }
-.tableau-gif-wrapper:hover .gif-overlay { opacity: 1; }
 .gif-overlay-text {
   font-size: 0.85rem;
   font-weight: 700;
@@ -778,7 +771,7 @@ nav.scrolled {
   transform-origin: left;
   transition: transform 0.4s ease;
 }
-.cert-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(13,122,111,0.1); }
+.cert-card:hover { border-color: var(--accent); }
 .cert-card:hover::after { transform: scaleX(1); }
 .cert-logo {
   width: 48px; height: 48px;
@@ -909,10 +902,10 @@ nav.scrolled {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-muted);
-  transition: color var(--transition), letter-spacing var(--transition);
+  transition: color var(--transition);
   position: relative;
 }
-.project-card:hover .project-cta { color: var(--accent); letter-spacing: 0.15em; }
+.project-card:hover .project-cta { color: var(--accent); }
 
 /* ── CONTACT ──────────────────────────────────────────── */
 .contact-section { background: transparent; }
@@ -941,10 +934,10 @@ nav.scrolled {
   gap: 1.25rem;
   padding: 1.1rem 0;
   border-bottom: 1px solid var(--border);
-  transition: opacity var(--transition);
+  transition: background var(--transition);
 }
 .contact-item:first-child { border-top: 1px solid var(--border); }
-.contact-item:hover { opacity: 0.7; }
+.contact-item:hover { background: var(--accent-dim); }
 .contact-item-body { flex: 1; }
 .contact-item-label {
   font-size: 0.65rem;
@@ -970,7 +963,7 @@ nav.scrolled {
   transition: color var(--transition), transform var(--transition);
   flex-shrink: 0;
 }
-.contact-item:hover .contact-arrow { color: var(--accent); transform: translate(2px, -2px); }
+.contact-item:hover .contact-arrow { color: var(--accent); }
 .contact-icon {
   width: 42px; height: 42px;
   background: var(--bg-card);
@@ -1069,8 +1062,8 @@ nav.scrolled {
   opacity: 0;
   transform: translateY(28px);
   transition:
-    opacity 0.6s var(--ease-out) calc(var(--stagger-i, 0) * 60ms),
-    transform 0.6s var(--ease-out) calc(var(--stagger-i, 0) * 60ms);
+    opacity 0.5s var(--ease-out) calc(var(--stagger-i, 0) * 60ms),
+    transform 0.5s var(--ease-out) calc(var(--stagger-i, 0) * 60ms);
   will-change: opacity, transform;
 }
 .reveal-stagger.visible { opacity: 1; transform: translateY(0); }
@@ -1085,7 +1078,7 @@ nav.scrolled {
 .split-line-inner {
   display: inline-block;
   transform: translateY(110%);
-  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
 .split-line-inner.visible { transform: translateY(0); }
@@ -1106,7 +1099,7 @@ nav.scrolled {
     rgba(255,255,255,0.28) 50%,
     transparent 100%);
   transform: skewX(-20deg);
-  transition: left 0.7s cubic-bezier(0.4,0,0.2,1);
+  transition: left 0.45s cubic-bezier(0.4,0,0.2,1);
   pointer-events: none;
   z-index: 1;
 }
@@ -1124,15 +1117,12 @@ nav.scrolled {
 }
 .tilt:hover .tilt-inner { transition: transform 0.1s linear; }
 
-/* Soft glow lift on tilted cards */
+/* Soft glow lift on tilted cards — moved to (hover:hover) media query */
 .cert-card.tilt,
 .project-card.tilt,
 .tableau-card.tilt {
   transition: box-shadow var(--transition);
 }
-.cert-card.tilt:hover { box-shadow: 0 18px 40px -18px rgba(13,122,111,0.35); }
-.tableau-card.tilt:hover { box-shadow: 0 22px 50px -22px rgba(13,122,111,0.3); }
-.project-card.tilt:hover { box-shadow: 0 22px 50px -22px rgba(13,122,111,0.25); }
 
 /* ── HERO PARALLAX HOOKS ─────────────────────────────── */
 .hero-name, .hero-glow {
@@ -1182,10 +1172,7 @@ nav.scrolled {
   background: var(--text-dim);
   transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
 }
-.si-dot:hover span {
-  background: var(--accent);
-  transform: scale(1.4);
-}
+.si-dot:hover span { background: var(--accent); }
 .si-dot.active span {
   background: var(--accent);
   transform: scale(1.6);
@@ -1211,10 +1198,7 @@ nav.scrolled {
   pointer-events: none;
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
-.si-dot:hover::before {
-  opacity: 1;
-  transform: translateY(-50%) translateX(0);
-}
+/* si-dot tooltip reveal moved to (hover:hover) media query */
 
 /* ── LENIS SMOOTH SCROLL ──────────────────────────────── */
 html.lenis, html.lenis body { height: auto; }
@@ -1264,13 +1248,7 @@ html.lenis, html.lenis body { height: auto; }
   .tilt-inner { transform: none !important; }
 }
 
-/* On touch devices :hover sticks after a tap — neutralise the lift so
-   cards don't stay raised once tapped. */
-@media (hover: none) {
-  .tableau-card:hover,
-  .cert-card:hover,
-  .project-card:hover { transform: none; }
-}
+/* Transform-based hover effects are now gated in the (hover:hover) block below */
 
 @media (max-width: 480px) {
   .hero-name { font-size: 3rem; }
@@ -1281,14 +1259,14 @@ html.lenis, html.lenis body { height: auto; }
 .reveal-left {
   opacity: 0;
   transform: translateX(-32px);
-  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
 }
 .reveal-left.visible { opacity: 1; transform: translateX(0); }
 
 .reveal-right {
   opacity: 0;
   transform: translateX(32px);
-  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
 }
 .reveal-right.visible { opacity: 1; transform: translateX(0); }
 
@@ -1298,7 +1276,7 @@ html.lenis, html.lenis body { height: auto; }
 
 /* ── HERO GLOW MOUSE TRACKING ────────────────────────── */
 .hero-glow {
-  transition: left 1s cubic-bezier(0.22, 1, 0.36, 1), top 1s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: left 0.7s cubic-bezier(0.22, 1, 0.36, 1), top 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* ── CUSTOM CURSOR ───────────────────────────────────── */
@@ -1328,7 +1306,41 @@ body.custom-cursor textarea { cursor: text !important; }
   z-index: 99999;
   will-change: transform;
   mix-blend-mode: multiply;
-  transition: width 0.2s ease, height 0.2s ease, opacity 0.3s ease;
+  transition: opacity 0.3s ease;
 }
-.cursor-dot.is-hovering { width: 14px; height: 14px; }
 .cursor-dot.is-hidden { opacity: 0 !important; }
+
+/* ── HOVER-CAPABLE DEVICES ONLY ─────────────────────── */
+/* All transform-based hover effects live here so they   */
+/* never fire on touch devices (stuck-hover bug).        */
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover     { transform: translateY(-2px); }
+  .btn-outline:hover     { transform: translateY(-2px); }
+
+  .skill-text-item:hover           { transform: translateX(4px); }
+  .skill-text-item:hover::before   { transform: scale(1.4); }
+
+  .marquee-wrapper:hover .marquee-track { animation-play-state: paused; }
+  .marquee-item:hover svg               { transform: scale(1.08); }
+
+  .tableau-card:hover                         { transform: translateY(-2px); }
+  .tableau-link-btn:hover                     { transform: translateY(-1px); }
+  .tableau-gif-wrapper:hover .tableau-gif     { transform: scale(1.03); }
+  .tableau-gif-wrapper:hover .gif-overlay     { opacity: 1; }
+
+  .cert-card:hover       { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(13,122,111,0.1); }
+  .cert-card.tilt:hover  { box-shadow: 0 18px 40px -18px rgba(13,122,111,0.35); }
+
+  .project-card.tilt:hover   { box-shadow: 0 22px 50px -22px rgba(13,122,111,0.25); }
+  .tableau-card.tilt:hover   { box-shadow: 0 22px 50px -22px rgba(13,122,111,0.3); }
+
+  .contact-item:hover .contact-arrow { transform: translate(2px, -2px); }
+
+  .si-dot:hover span   { transform: scale(1.4); }
+  .si-dot:hover::before {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .nav-links a:hover::after { transform: scaleX(1); }
+}
