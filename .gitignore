@@ -1,0 +1,29 @@
+# ── OS / OneDrive cruft ───────────────────────────────
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ── Editor / IDE ──────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*~
+
+# ── Claude Code (keep .claude/skills tracked; ignore local) ──
+.claude/settings.local.json
+.claude/.cache/
+
+# ── Environment / secrets ─────────────────────────────
+.env
+.env.*
+!.env.sample
+
+# ── Logs / temp ───────────────────────────────────────
+*.log
+*.tmp
+
+# ── Node (only if tooling is ever added) ──────────────
+node_modules/
+npm-debug.log*
