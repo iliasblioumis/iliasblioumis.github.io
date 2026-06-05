@@ -15,6 +15,9 @@ $RECYCLE.BIN/
 .claude/settings.local.json
 .claude/.cache/
 
+# ── Personal assets (kept local, not published) ───────
+assets/ilias-blioumis.jpg
+
 # ── Environment / secrets ─────────────────────────────
 .env
 .env.*
