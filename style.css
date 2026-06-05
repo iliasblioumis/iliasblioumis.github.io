@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════
    BI DEVELOPER PORTFOLIO — style.css
-   Dark industrial-modern aesthetic
+   Light editorial-modern aesthetic (teal + gold)
    ═══════════════════════════════════════════════════════ */
 
 /* ── VARIABLES ────────────────────────────────────────── */
@@ -19,7 +19,42 @@
   --gold:       #C9A84C;
   --font-display:'DM Serif Display', Georgia, serif;
   --font-body:   'Plus Jakarta Sans', sans-serif;
-  --radius:      4px;
+  /* Monospace for "data" elements — labels, tags, metrics. Engineered feel. */
+  --font-mono:   'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* ── FLUID TYPE SCALE (clamp: min → preferred → max) ──
+     Replaces ad-hoc vw/rem sizing so headings scale smoothly
+     from 375px up to large desktops without jarring jumps. */
+  --step-0:  clamp(0.95rem, 0.90rem + 0.25vw, 1.0625rem);  /* body / lead   */
+  --step-1:  clamp(1.1rem,  1.02rem + 0.4vw,  1.35rem);    /* card titles   */
+  --step-2:  clamp(1.35rem, 1.18rem + 0.8vw,  1.85rem);    /* sub-headings  */
+  --step-3:  clamp(1.7rem,  1.40rem + 1.5vw,  2.6rem);     /* about head    */
+  --step-4:  clamp(2.1rem,  1.65rem + 2.2vw,  3.4rem);     /* section title */
+  --step-6:  clamp(3rem,    1.9rem  + 5.5vw,  6.5rem);     /* hero name     */
+
+  /* ── SPACING SCALE (4px base) ── */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.5rem;
+  --space-6:  2rem;
+  --space-8:  3rem;
+  --space-10: 4rem;
+  --space-12: 6rem;
+  /* Vertical rhythm for sections — fluid so it breathes on large screens */
+  --section-pad: clamp(4.5rem, 3rem + 6vw, 8.5rem);
+
+  /* ── ELEVATION (soft, low-opacity, multi-layer) ── */
+  --shadow-sm: 0 1px 2px rgba(26,26,24,0.04), 0 2px 6px rgba(26,26,24,0.04);
+  --shadow-md: 0 4px 10px rgba(26,26,24,0.05), 0 10px 24px rgba(26,26,24,0.06);
+  --shadow-lg: 0 12px 28px rgba(26,26,24,0.07), 0 24px 56px rgba(26,26,24,0.09);
+  /* Accent-tinted lift used on card hover */
+  --shadow-accent: 0 18px 44px -20px rgba(13,122,111,0.35);
+
+  --radius:     8px;
+  --radius-lg:  14px;
+  --radius-sm:  5px;
   --transition:  0.3s cubic-bezier(0.4,0,0.2,1);
   /* Strong ease-out — more punch than the built-in curves for entrances + feedback */
   --ease-out:    cubic-bezier(0.23,1,0.32,1);
@@ -27,22 +62,36 @@
 
 /* ── RESET & BASE ─────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; background-color: var(--bg); }
 /* Lenis takes over scrolling when active and disables native smooth-scroll */
 html.lenis { scroll-behavior: auto; }
 body {
   position: relative;
-  background-color: var(--bg);
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 50px 50px;
+  /* Transparent so the fixed grid layer in body::before (z-index:-1) stays
+     visible above the page background painted on <html>. */
+  background-color: transparent;
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 15px;
+  font-size: var(--step-0);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+/* Subtle, larger grid that reads as texture (not graph paper) on a dedicated
+   fixed layer behind all content, faded toward the edges via a radial mask so
+   it never competes with the foreground. z-index:-1 keeps it under everything. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 110% 80% at 50% 0%, #000 30%, transparent 95%);
+  mask-image: radial-gradient(ellipse 110% 80% at 50% 0%, #000 30%, transparent 95%);
 }
 
 /* ── AMBIENT DOT FIELD (canvas constellation) ────────── */
@@ -51,6 +100,8 @@ body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  /* Slightly dialed back so foreground copy keeps its contrast. */
+  opacity: 0.8;
 }
 #ambientCanvas {
   display: block;
@@ -206,22 +257,24 @@ nav.scrolled {
 
 /* ── SHARED ───────────────────────────────────────────── */
 .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-.section { padding: 7rem 0; }
-.section-header { margin-bottom: 4rem; }
+.section { padding: var(--section-pad) 0; }
+.section-header { margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4.5rem); }
 .section-tag {
   display: inline-block;
-  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: 1rem;
 }
 .section-title {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-size: var(--step-4);
   font-weight: 400;
-  line-height: 1.1;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
   color: var(--text);
 }
 .section-title em { font-style: italic; color: var(--accent); }
@@ -243,7 +296,7 @@ nav.scrolled {
 /* ── BUTTONS ──────────────────────────────────────────── */
 .btn-primary {
   display: inline-block;
-  padding: 0.85rem 2rem;
+  padding: 0.9rem 2rem;
   background: var(--accent);
   color: #fff;
   font-family: var(--font-body);
@@ -252,6 +305,7 @@ nav.scrolled {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   border: none;
+  border-radius: var(--radius);
   cursor: pointer;
   transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
 }
@@ -262,7 +316,7 @@ nav.scrolled {
 .btn-primary:active { transform: scale(0.97); }
 .btn-outline {
   display: inline-block;
-  padding: 0.85rem 2rem;
+  padding: 0.9rem 2rem;
   background: transparent;
   color: var(--text);
   font-family: var(--font-body);
@@ -271,6 +325,7 @@ nav.scrolled {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   border: 1px solid var(--border-2);
+  border-radius: var(--radius);
   cursor: pointer;
   transition: border-color var(--transition), color var(--transition), transform var(--transition);
 }
@@ -341,16 +396,20 @@ nav.scrolled {
 }
 .hero-glow {
   position: absolute;
-  width: 600px; height: 600px;
-  left: -100px; top: 50%;
+  width: 760px; height: 760px;
+  left: -160px; top: 50%;
   transform: translateY(-50%);
-  background: radial-gradient(circle, rgba(13,122,111,0.05) 0%, transparent 70%);
+  background: radial-gradient(circle,
+    rgba(13,122,111,0.07) 0%,
+    rgba(201,168,76,0.03) 38%,
+    transparent 72%);
   pointer-events: none;
 }
 .hero-greeting {
-  font-size: 0.82rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
   font-weight: 500;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: 0.75rem;
@@ -358,10 +417,10 @@ nav.scrolled {
 }
 .hero-name {
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-size: var(--step-6);
   font-weight: 400;
-  line-height: 1.0;
-  letter-spacing: -0.02em;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
   color: var(--text);
   margin-bottom: 1rem;
   animation-delay: 0.25s;
@@ -412,23 +471,36 @@ nav.scrolled {
   width: 100%;
   max-width: 360px;
 }
-.about-image-placeholder {
+.about-image-placeholder,
+.about-image-frame img {
   width: 100%;
   aspect-ratio: 3/4;
+  object-fit: cover;
   background: var(--bg-card);
   border: 1px solid var(--border-2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.about-image-placeholder {
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   align-items: center;
   justify-content: center;
   color: var(--text-dim);
-  font-size: 0.85rem;
-  letter-spacing: 0.1em;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  text-align: center;
+  padding: 1.5rem;
 }
+.about-image-placeholder svg { width: 34px; height: 34px; opacity: 0.5; }
 .about-image-border {
   position: absolute;
-  inset: 12px -12px -12px 12px;
+  inset: 14px -14px -14px 14px;
   border: 1px solid var(--accent);
+  border-radius: var(--radius-lg);
   opacity: 0.4;
   pointer-events: none;
 }
@@ -437,6 +509,8 @@ nav.scrolled {
   background: var(--accent);
   color: #fff;
   padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
   text-align: center;
   margin-top: 1.25rem;
 }
@@ -448,12 +522,13 @@ nav.scrolled {
   line-height: 1;
   color: #fff;
 }
-.about-stat-badge span { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+.about-stat-badge span { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
 .about-headline {
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-size: var(--step-3);
   font-weight: 400;
-  line-height: 1.15;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
   margin-bottom: 1.5rem;
 }
 .about-headline em { font-style: italic; color: var(--accent); }
@@ -471,18 +546,21 @@ nav.scrolled {
   margin: 2rem 0 2.5rem;
   padding: 1.75rem;
   border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
   background: var(--bg-card);
 }
 .info-label {
   display: block;
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-dim);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.35rem;
 }
-.info-value { font-size: 0.88rem; color: var(--text); }
+.info-value { font-size: 0.9rem; font-weight: 500; color: var(--text); }
 .info-value.available {
   color: var(--accent);
   display: flex;
@@ -508,9 +586,10 @@ nav.scrolled {
   margin-bottom: 3.5rem;
 }
 .skills-col-title {
+  font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-muted);
   margin-bottom: 2rem;
@@ -520,10 +599,12 @@ nav.scrolled {
 .skills-col {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  padding: 2rem;
-  transition: border-color var(--transition);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-6);
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
-.skills-col:hover { border-color: var(--border-2); }
+.skills-col:hover { border-color: var(--border-2); box-shadow: var(--shadow-md); }
 .skill-list {
   list-style: none;
   display: flex;
@@ -596,9 +677,10 @@ nav.scrolled {
 }
 .marquee-item::before {
   content: attr(title);
+  font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-muted);
   order: 2;
@@ -608,11 +690,13 @@ nav.scrolled {
 .marquee-item:hover { background: var(--accent-dim); }
 .marquee-item:hover::before { color: var(--accent); }
 .marquee-item svg {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   flex-shrink: 0;
   display: block;
-  filter: grayscale(100%) opacity(0.65);
+  /* Crisp, in-colour logos — only a light grayscale veil so they read clearly
+     but settle into the strip; full colour on hover. */
+  filter: grayscale(28%) opacity(0.85);
   transition: filter var(--transition), transform var(--transition);
 }
 .marquee-item:hover svg { filter: grayscale(0%) opacity(1); }
@@ -629,8 +713,10 @@ nav.scrolled {
 .tableau-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
-  transition: border-color var(--transition), transform var(--transition);
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 .tableau-card:hover { border-color: var(--accent); }
 .tableau-card-wide { grid-column: 1 / -1; }
@@ -642,12 +728,13 @@ nav.scrolled {
   border-bottom: 1px solid var(--border);
 }
 .tableau-card-tag {
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
 }
 .tableau-card-title {
   font-family: var(--font-display);
@@ -658,7 +745,8 @@ nav.scrolled {
 .tableau-link-btn {
   width: 36px; height: 36px;
   background: var(--accent-dim);
-  border: 1px solid rgba(0,229,204,0.2);
+  border: 1px solid var(--accent-glow);
+  border-radius: var(--radius);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -667,7 +755,7 @@ nav.scrolled {
   flex-shrink: 0;
   transition: background var(--transition), transform var(--transition);
 }
-.tableau-link-btn:hover { background: var(--accent); color: #000; }
+.tableau-link-btn:hover { background: var(--accent); color: #fff; }
 .tableau-link-btn:active { transform: scale(0.95); }
 /* ── TABLEAU GIF CARDS ────────────────────────────────── */
 .tableau-gif-wrapper {
@@ -712,34 +800,36 @@ nav.scrolled {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
+  gap: 0.65rem;
   width: 100%;
   height: 100%;
   min-height: 280px;
   padding: 2rem;
   text-align: center;
-  background: repeating-linear-gradient(
-    45deg,
-    var(--bg-card),
-    var(--bg-card) 10px,
-    rgba(220,218,214,0.4) 10px,
-    rgba(220,218,214,0.4) 20px
-  );
-  border: 2px dashed var(--border-2);
-  margin: 1rem;
+  /* Intentional "in progress" treatment — a calm accent-tinted panel,
+     not a dashed placeholder box. */
+  background:
+    radial-gradient(120% 100% at 50% 0%, var(--accent-dim) 0%, transparent 70%),
+    var(--bg-card);
 }
 .gif-missing .gif-missing-msg { display: flex; }
 .gif-missing .gif-overlay { display: none; }
-.gif-missing-icon { font-size: 2rem; opacity: 0.4; }
-.gif-missing-msg p { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
-.gif-missing-msg span { color: var(--text-dim); font-size: 0.75rem; }
-.gif-missing-msg code {
-  font-family: monospace;
-  background: var(--border);
-  padding: 0.15rem 0.4rem;
-  border-radius: 3px;
-  font-size: 0.72rem;
+.gif-missing-icon {
+  width: 40px;
+  height: 40px;
   color: var(--accent);
+  opacity: 0.7;
+}
+.gif-missing-msg p {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.gif-missing-msg span {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
 }
 .tableau-cta { text-align: center; }
 
@@ -753,7 +843,9 @@ nav.scrolled {
 .cert-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  padding: 1.75rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -796,12 +888,14 @@ nav.scrolled {
 }
 .cert-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 .cert-tag {
+  font-family: var(--font-mono);
   font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  padding: 0.2rem 0.6rem;
+  padding: 0.22rem 0.6rem;
   border: 1px solid var(--border-2);
+  border-radius: var(--radius-sm);
   color: var(--text-muted);
 }
 .cert-btn {
@@ -814,6 +908,7 @@ nav.scrolled {
   text-transform: uppercase;
   color: var(--text-muted);
   border: 1px solid var(--border-2);
+  border-radius: var(--radius);
   padding: 0.55rem 1rem;
   transition: color var(--transition), border-color var(--transition), background var(--transition), transform 0.16s var(--ease-out);
   align-self: flex-start;
@@ -828,6 +923,10 @@ nav.scrolled {
   grid-template-columns: 1fr 1fr;
   gap: 1.5px;
   background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
 }
 .project-card {
   background: var(--bg-card);
@@ -860,16 +959,18 @@ nav.scrolled {
 .project-body { flex-grow: 1; position: relative; }
 .project-tools-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
 .project-tool {
+  font-family: var(--font-mono);
   font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   padding: 0.25rem 0.65rem;
   border: 1px solid var(--border-2);
+  border-radius: var(--radius-sm);
   color: var(--text-muted);
   transition: border-color var(--transition), color var(--transition);
 }
-.project-card:hover .project-tool { border-color: rgba(0,229,204,0.25); color: var(--accent); }
+.project-card:hover .project-tool { border-color: var(--accent-glow); color: var(--accent); }
 .project-title {
   font-family: var(--font-display);
   font-size: 1.5rem;
@@ -888,9 +989,10 @@ nav.scrolled {
   border-left: 2px solid var(--accent);
 }
 .outcome-label {
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent);
   flex-shrink: 0;
@@ -925,6 +1027,8 @@ nav.scrolled {
 .contact-left {
   background: var(--bg-card);
   border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
   padding: 2.5rem;
 }
 .contact-links { display: flex; flex-direction: column; gap: 0; }
@@ -940,9 +1044,10 @@ nav.scrolled {
 .contact-item:hover { background: var(--accent-dim); }
 .contact-item-body { flex: 1; }
 .contact-item-label {
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.15em;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-dim);
   margin-bottom: 0.15rem;
@@ -953,9 +1058,10 @@ nav.scrolled {
   font-weight: 600;
 }
 .contact-item-domain {
-  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   color: var(--text-muted);
-  margin-top: 0.05rem;
+  margin-top: 0.1rem;
 }
 .contact-arrow {
   font-size: 0.9rem;
@@ -968,6 +1074,7 @@ nav.scrolled {
   width: 42px; height: 42px;
   background: var(--bg-card);
   border: 1px solid var(--border-2);
+  border-radius: var(--radius);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -977,15 +1084,18 @@ nav.scrolled {
   font-style: normal;
   font-weight: 700;
   font-family: var(--font-body);
+  transition: border-color var(--transition), background var(--transition);
 }
+.contact-item:hover .contact-icon { border-color: var(--accent); background: var(--accent-dim); }
 
 /* ── FORM ─────────────────────────────────────────────── */
 .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
 .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
 .form-group label {
+  font-family: var(--font-mono);
   font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.15em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
 }
@@ -993,18 +1103,56 @@ nav.scrolled {
 .form-group textarea {
   background: var(--bg-card);
   border: 1px solid var(--border-2);
+  border-radius: var(--radius);
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 0.9rem;
-  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  padding: 0.95rem 1.1rem;
   resize: vertical;
-  transition: border-color var(--transition);
+  transition: border-color var(--transition), box-shadow var(--transition);
   outline: none;
 }
 .form-group input:focus,
-.form-group textarea:focus { border-color: var(--accent); }
+.form-group textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
 .form-group input::placeholder,
 .form-group textarea::placeholder { color: var(--text-dim); }
+
+/* Honeypot — hidden from humans, catches bots. Off-screen, not display:none
+   (some bots skip display:none fields). */
+.form-hp {
+  position: absolute !important;
+  left: -9999px;
+  width: 1px; height: 1px;
+  overflow: hidden;
+}
+
+/* ── FORM STATUS MESSAGE ──────────────────────────────── */
+.form-status {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-2);
+  display: none;
+}
+.form-status.is-visible { display: block; }
+.form-status.is-success { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+.form-status.is-error   { color: #B4322A; border-color: #E2B4B0; background: rgba(180,50,42,0.06); }
+
+/* ── PENDING / NOT-YET-LIVE LINKS ─────────────────────── */
+/* Honest, non-broken state for links whose target isn't published yet.
+   Renders as a muted, non-interactive chip instead of a dead href="#". */
+.is-pending {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+  position: relative;
+}
+.project-cta.is-pending { color: var(--text-dim); }
 
 /* ── FOOTER ───────────────────────────────────────────── */
 .footer {
@@ -1328,11 +1476,11 @@ body.custom-cursor textarea { cursor: text !important; }
   .tableau-gif-wrapper:hover .tableau-gif     { transform: scale(1.03); }
   .tableau-gif-wrapper:hover .gif-overlay     { opacity: 1; }
 
-  .cert-card:hover       { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(13,122,111,0.1); }
-  .cert-card.tilt:hover  { box-shadow: 0 18px 40px -18px rgba(13,122,111,0.35); }
+  .cert-card:hover       { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .cert-card.tilt:hover  { box-shadow: var(--shadow-accent); }
 
-  .project-card.tilt:hover   { box-shadow: 0 22px 50px -22px rgba(13,122,111,0.25); }
-  .tableau-card.tilt:hover   { box-shadow: 0 22px 50px -22px rgba(13,122,111,0.3); }
+  .project-card.tilt:hover   { box-shadow: var(--shadow-accent); }
+  .tableau-card.tilt:hover   { box-shadow: var(--shadow-accent); }
 
   .contact-item:hover .contact-arrow { transform: translate(2px, -2px); }
 
