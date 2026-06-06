@@ -15,8 +15,10 @@ $RECYCLE.BIN/
 .claude/settings.local.json
 .claude/.cache/
 
-# ── Personal assets (kept local, not published) ───────
-assets/ilias-blioumis.jpg
+# ── Personal assets ───────────────────────────────────
+# The optimized portrait (assets/ilias-blioumis.jpg) IS published.
+# Keep the heavy unoptimized original out of git:
+assets/ilias.blioumis.jpg
 
 # ── Environment / secrets ─────────────────────────────
 .env

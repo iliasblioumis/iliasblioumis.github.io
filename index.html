@@ -1054,13 +1054,19 @@
     (function() {
       const bar = document.getElementById('scrollProgress');
       if (!bar) return;
+      let ticking = false;
       function update() {
         const h = document.documentElement;
         const max = h.scrollHeight - h.clientHeight;
-        const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-        bar.style.width = pct + '%';
+        const ratio = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+        // scaleX is GPU-composited (no layout/paint) — far smoother than width.
+        bar.style.transform = 'scaleX(' + ratio + ')';
+        ticking = false;
       }
-      window.addEventListener('scroll', update, { passive: true });
+      function onScroll() {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', update);
       update();
     })();
