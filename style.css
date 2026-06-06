@@ -62,7 +62,7 @@
 
 /* ── RESET & BASE ─────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; background-color: var(--bg); }
+html { scroll-behavior: smooth; background-color: var(--bg); scroll-padding-top: 80px; }
 /* Lenis takes over scrolling when active and disables native smooth-scroll */
 html.lenis { scroll-behavior: auto; }
 body {
@@ -1599,7 +1599,9 @@ body.custom-cursor textarea { cursor: text !important; }
    Applies only to generic .reveal; directional + stagger
    reveals keep their bespoke JS so their character is kept. */
 @supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
+  /* Desktop only — on phones the JS IntersectionObserver drives .reveal, which
+     is lighter and avoids any view()-timeline quirk leaving content hidden. */
+  @media (prefers-reduced-motion: no-preference) and (min-width: 769px) {
     .reveal {
       animation: sd-rise both linear;
       animation-timeline: view();
@@ -1627,4 +1629,80 @@ body.custom-cursor textarea { cursor: text !important; }
   .aurora-bg::before, .aurora-bg::after { animation: none; }
   .hero-name .w > span { animation: none; transform: none; }
   .hero-name .dot { animation: none; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   BACK TO TOP BUTTON
+   ═══════════════════════════════════════════════════════ */
+.to-top {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: calc(clamp(1rem, 3vw, 2rem) + env(safe-area-inset-bottom, 0px));
+  z-index: 900;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(14px) scale(0.9);
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out), background 0.2s ease;
+}
+.to-top.is-visible { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { background: #0a6359; }
+.to-top:active { transform: scale(0.92); }
+.to-top svg {
+  width: 22px; height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+@media (prefers-reduced-motion: reduce) {
+  .to-top { transition: opacity 0.2s ease; transform: none; }
+  .to-top.is-visible { transform: none; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE / TOUCH OPTIMIZATION
+   ═══════════════════════════════════════════════════════ */
+
+/* The animated blur(80px) aurora re-rasterizes every frame — far too costly
+   on phone GPUs. On touch devices: stop the animation and lighten the blur so
+   it stays as a calm static wash. */
+@media (hover: none), (pointer: coarse) {
+  .aurora-bg::before,
+  .aurora-bg::after {
+    animation: none;
+    filter: blur(55px) saturate(120%);
+    will-change: auto;
+  }
+  .aurora-bg::before { opacity: 0.32; }
+  .aurora-bg::after  { opacity: 0.26; }
+}
+
+/* Touch tap feedback — cards have no hover state on phones, so give them a
+   clear press response (the spotlight/tilt/glare are pointer:fine only). */
+@media (hover: none) {
+  .cert-card:active,
+  .project-card:active,
+  .tableau-card:active {
+    transform: scale(0.985);
+    border-color: var(--accent);
+    transition: transform 0.15s var(--ease-out), border-color 0.15s var(--ease-out);
+  }
+  .contact-item:active { background: var(--accent-dim); }
+}
+
+@media (max-width: 480px) {
+  /* Lighter ambient + a touch more breathing room on small screens */
+  .ambient-dots { opacity: 0.6; }
+  .to-top { width: 44px; height: 44px; }
 }
