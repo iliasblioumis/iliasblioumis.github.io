@@ -48,6 +48,9 @@
     <a href="#contact" class="si-dot" data-label="Contact" aria-label="Contact"><span></span></a>
   </nav>
 
+  <!-- Site-wide animated aurora background (behind all content) -->
+  <div class="aurora-bg" aria-hidden="true"></div>
+
   <div class="ambient-dots" id="ambientDots" aria-hidden="true">
     <canvas id="ambientCanvas"></canvas>
   </div>
@@ -84,7 +87,6 @@
 
   <!-- HERO -->
   <section id="home" class="hero">
-    <div class="hero-aurora" aria-hidden="true"></div>
     <div class="hero-glow"></div>
     <!-- Badge ring on LEFT side (decorative) -->
     <div class="hero-badge hero-badge-left" aria-hidden="true">
@@ -1188,6 +1190,11 @@
         const inner = document.createElement('div');
         inner.className = 'tilt-inner';
         while (card.firstChild) inner.appendChild(card.firstChild);
+        // Full-bleed spotlight/gloss layer — uniform across every card type
+        const fx = document.createElement('span');
+        fx.className = 'card-fx';
+        fx.setAttribute('aria-hidden', 'true');
+        card.appendChild(fx);
         card.appendChild(inner);
 
         let rafId = null;
@@ -1427,9 +1434,16 @@
       if (prefersReduced) return;
       const name = document.querySelector('.hero-name');
       if (!name) return;
-      const words = name.innerHTML.trim().split(/\s+/);
+      // Split on the visible TEXT only (innerHTML would break the .dot tag on its
+      // internal space). Re-attach the accent period to the final word.
+      const dot = name.querySelector('.dot');
+      const dotHTML = dot ? dot.outerHTML : '';
+      const words = name.textContent.replace(/\.\s*$/, '').trim().split(/\s+/);
       name.innerHTML = words
-        .map((w, i) => `<span class="w" style="--i:${i}"><span>${w}</span></span>`)
+        .map((w, i) => {
+          const inner = w + (i === words.length - 1 ? dotHTML : '');
+          return `<span class="w" style="--i:${i}"><span>${inner}</span></span>`;
+        })
         .join(' ');
     })();
 

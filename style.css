@@ -1511,41 +1511,67 @@ body.custom-cursor textarea { cursor: text !important; }
    All transform/opacity only; gated by hover + reduced-motion.
    ═══════════════════════════════════════════════════════ */
 
-/* ── B2: Aurora hero backdrop ─────────────────────────── */
-.hero-aurora {
-  position: absolute;
-  inset: -25% -10% auto -10%;
-  height: 130%;
-  z-index: -1;
+/* ── B2: Aurora background (site-wide, wave-like) ───────
+   Fixed full-viewport layer behind all content. Two blurred
+   gradient sheets drift on different timings + opposite paths
+   so they interfere and read as slow waves. */
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;            /* over html bg + grid, under the constellation/content */
+  overflow: hidden;
   pointer-events: none;
-  filter: blur(72px) saturate(125%);
-  opacity: 0.5;
-  background:
-    radial-gradient(42% 50% at 28% 32%, rgba(13,122,111,0.55), transparent 60%),
-    radial-gradient(38% 46% at 72% 38%, rgba(201,168,76,0.42), transparent 62%),
-    radial-gradient(30% 40% at 55% 72%, rgba(13,122,111,0.30), transparent 65%);
-  animation: aurora-drift 20s ease-in-out infinite alternate;
-  will-change: transform;
 }
-@keyframes aurora-drift {
-  from { transform: translate3d(-2%, 1%, 0) rotate(-4deg) scale(1); }
-  to   { transform: translate3d(4%, -3%, 0) rotate(6deg) scale(1.12); }
-}
-
-/* ── B1: Cursor spotlight on cards ────────────────────── */
-.cert-card, .project-card, .tableau-card { isolation: isolate; }
-.cert-card::before,
-.project-card::after,
-.tableau-card::before {
+.aurora-bg::before,
+.aurora-bg::after {
   content: "";
   position: absolute;
+  inset: -35%;
+  filter: blur(80px) saturate(125%);
+  will-change: transform;
+}
+.aurora-bg::before {
+  opacity: 0.45;
+  background:
+    radial-gradient(34% 44% at 25% 30%, rgba(13,122,111,0.50), transparent 60%),
+    radial-gradient(30% 40% at 72% 36%, rgba(201,168,76,0.40), transparent 62%);
+  animation: aurora-a 22s ease-in-out infinite alternate;
+}
+.aurora-bg::after {
+  opacity: 0.38;
+  background:
+    radial-gradient(40% 50% at 62% 70%, rgba(13,122,111,0.36), transparent 60%),
+    radial-gradient(30% 40% at 30% 74%, rgba(201,168,76,0.30), transparent 60%);
+  animation: aurora-b 30s ease-in-out infinite alternate;
+}
+@keyframes aurora-a {
+  0%   { transform: translate3d(-6%, -3%, 0) rotate(-6deg) scale(1.05); }
+  50%  { transform: translate3d(5%,   4%, 0) rotate(5deg)  scale(1.20); }
+  100% { transform: translate3d(-3%,  6%, 0) rotate(-2deg) scale(1.10); }
+}
+@keyframes aurora-b {
+  0%   { transform: translate3d(5%,   4%, 0) rotate(4deg)  scale(1.10); }
+  50%  { transform: translate3d(-5%, -6%, 0) rotate(-7deg) scale(1.25); }
+  100% { transform: translate3d(4%,  -2%, 0) rotate(3deg)  scale(1.05); }
+}
+
+/* ── B1+B6: Cursor spotlight + gloss on cards ───────────
+   A single full-bleed .card-fx layer is injected into every
+   card by the tilt JS, so the effect is identical on all
+   cards and free of per-card pseudo / z-index conflicts. */
+.cert-card, .project-card, .tableau-card { position: relative; }
+.tilt-inner { position: relative; z-index: 1; }
+.card-fx {
+  position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;                /* above card surface, below content (z:1) */
   border-radius: inherit;
+  pointer-events: none;
   opacity: 0;
   transition: opacity 0.35s var(--ease-out);
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%),
-              rgba(13,122,111,0.13), transparent 45%);
+  background:
+    radial-gradient(300px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.34), transparent 32%),
+    radial-gradient(460px circle at var(--mx,50%) var(--my,50%), rgba(13,122,111,0.16), transparent 46%);
 }
 
 /* ── B4: Hero name word-mask reveal ───────────────────── */
@@ -1589,34 +1615,16 @@ body.custom-cursor textarea { cursor: text !important; }
 /* ── C: marquee skew gets a hint to stay smooth ───────── */
 .marquee-track { will-change: transform; }
 
-/* ── Hover-only motion: spotlight reveal + tilt glare ──── */
+/* ── Hover-only motion: card spotlight/gloss reveal ────── */
 @media (hover: hover) and (pointer: fine) {
-  .cert-card:hover::before,
-  .project-card:hover::after,
-  .tableau-card:hover::before { opacity: 1; }
-
-  /* B6: glossy glare tracking the pointer over tilting cards */
-  .tilt-inner { position: relative; }
-  .tilt-inner::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 5;
-    pointer-events: none;
-    opacity: 0;
-    mix-blend-mode: overlay;
-    transition: opacity 0.3s var(--ease-out);
-    background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%),
-                rgba(255,255,255,0.5), transparent 42%);
-  }
-  .cert-card:hover .tilt-inner::after,
-  .project-card:hover .tilt-inner::after,
-  .tableau-card:hover .tilt-inner::after { opacity: 1; }
+  .cert-card:hover .card-fx,
+  .project-card:hover .card-fx,
+  .tableau-card:hover .card-fx { opacity: 1; }
 }
 
 /* ── Reduced-motion: freeze the new decorative motion ─── */
 @media (prefers-reduced-motion: reduce) {
-  .hero-aurora { animation: none; }
+  .aurora-bg::before, .aurora-bg::after { animation: none; }
   .hero-name .w > span { animation: none; transform: none; }
   .hero-name .dot { animation: none; }
 }
