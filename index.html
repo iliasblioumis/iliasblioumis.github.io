@@ -84,6 +84,7 @@
 
   <!-- HERO -->
   <section id="home" class="hero">
+    <div class="hero-aurora" aria-hidden="true"></div>
     <div class="hero-glow"></div>
     <!-- Badge ring on LEFT side (decorative) -->
     <div class="hero-badge hero-badge-left" aria-hidden="true">
@@ -103,7 +104,7 @@
     </div>
     <div class="hero-content">
       <p class="hero-greeting reveal">Hello, I'm</p>
-      <h1 class="hero-name reveal">Ilias Blioumis<span class="dot">.</span></h1>
+      <h1 class="hero-name">Ilias Blioumis<span class="dot">.</span></h1>
       <div class="hero-roles reveal">
         <span class="role-prefix">I am a </span>
         <span class="typed-text" id="typedText"></span>
@@ -1099,7 +1100,7 @@
     // ── SPLIT-LINE TITLE REVEAL ──────────────────────────
     (function() {
       if (prefersReduced) return;
-      const titles = document.querySelectorAll('.section-title, .hero-name, .about-headline');
+      const titles = document.querySelectorAll('.section-title, .about-headline');
       titles.forEach(title => {
         // Wrap inner HTML in a mask line + inner translate
         const html = title.innerHTML.trim();
@@ -1196,6 +1197,9 @@
           const r = card.getBoundingClientRect();
           const px = (e.clientX - r.left) / r.width;
           const py = (e.clientY - r.top) / r.height;
+          // Drive the B1 spotlight + B6 glare hotspot (percent within the card)
+          card.style.setProperty('--mx', (px * 100) + '%');
+          card.style.setProperty('--my', (py * 100) + '%');
           targetY = (px - 0.5) * 2 * MAX_TILT;       // rotateY
           targetX = -(py - 0.5) * 2 * MAX_TILT;      // rotateX
           if (!rafId) {
@@ -1416,6 +1420,41 @@
       });
       document.addEventListener('mousedown', () => { dotScaleTarget = 0.7; });
       document.addEventListener('mouseup',   () => { dotScaleTarget = 1; });
+    })();
+
+    // ── B4: Hero name word-mask reveal ───────────────────
+    (function () {
+      if (prefersReduced) return;
+      const name = document.querySelector('.hero-name');
+      if (!name) return;
+      const words = name.innerHTML.trim().split(/\s+/);
+      name.innerHTML = words
+        .map((w, i) => `<span class="w" style="--i:${i}"><span>${w}</span></span>`)
+        .join(' ');
+    })();
+
+    // ── C: Marquee scroll-velocity skew ──────────────────
+    (function () {
+      if (prefersReduced) return;
+      const track = document.querySelector('.marquee-track');
+      if (!track) return;
+      let last = window.scrollY, vel = 0, raf = null;
+      function decay() {
+        vel *= 0.85;
+        track.style.setProperty('--mskew', vel.toFixed(2) + 'deg');
+        if (Math.abs(vel) > 0.05) {
+          raf = requestAnimationFrame(decay);
+        } else {
+          track.style.setProperty('--mskew', '0deg');
+          raf = null;
+        }
+      }
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        vel = Math.max(-6, Math.min(6, (y - last) * 0.25));
+        last = y;
+        if (!raf) raf = requestAnimationFrame(decay);
+      }, { passive: true });
     })();
   </script>
 
